@@ -1,18 +1,18 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Routes, Route, Link, NavLink, useLocation } from "react-router-dom";
+import { Routes, Route, Link, NavLink, useLocation, useParams } from "react-router-dom";
 import {
   FaBars, FaTimes, FaWhatsapp, FaFacebookF, FaInstagram, FaYoutube,
   FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaChild, FaPalette, FaFlask,
-  FaTree, FaMusic, FaHeart, FaStar, FaArrowRight, FaCheckCircle,
+  FaTree, FaMusic, FaHeart, FaStar, FaArrowRight, FaArrowLeft, FaCheckCircle,
   FaSmile, FaUsers, FaAward, FaBookOpen, FaCalendarAlt, FaQuoteLeft,
   FaPlus, FaMinus, FaCamera, FaPhone, FaVideo, FaPlay,
-  FaChalkboardTeacher, FaUserGraduate, FaSchool,
+  FaChalkboardTeacher, FaUser, FaClock,
 } from "react-icons/fa";
 
 /* ✅ LOGO */
 import logoImg from "./assets/logo.png";
 
-/* ✅ 25 LOCAL GALLERY IMAGES */
+/* ✅ 26 LOCAL GALLERY IMAGES */
 import g1 from "./assets/gallery/1.jpeg";
 import g2 from "./assets/gallery/2.jpeg";
 import g3 from "./assets/gallery/3.jpeg";
@@ -38,11 +38,12 @@ import g22 from "./assets/gallery/22.jpeg";
 import g23 from "./assets/gallery/23.jpeg";
 import g24 from "./assets/gallery/24.jpeg";
 import g25 from "./assets/gallery/25.jpeg";
+import g26 from "./assets/gallery/26.jpeg";
 
 const GALLERY_LOCAL = [
   g1, g2, g3, g4, g5, g6, g7, g8, g9, g10,
   g11, g12, g13, g14, g15, g16, g17, g18, g19, g20,
-  g21, g22, g23, g24, g25,
+  g21, g22, g23, g24, g25, g26,
 ];
 
 /* ============================================================
@@ -60,48 +61,137 @@ const SOCIAL = {
 };
 
 const IMG = {
-  programPlay: "https://images.unsplash.com/photo-1567057419565-4349c49d8a56?w=800&q=80",
-  programNursery: "https://images.unsplash.com/photo-1596464716127-f2a82984de30?w=800&q=80",
-  programJunior: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=800&q=80",
-  programSenior: "https://images.unsplash.com/photo-1544717297-fa95b6ee9643?w=800&q=80",
   blog1: "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=800&q=80",
   blog2: "https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=800&q=80",
   blog3: "https://images.unsplash.com/photo-1607453998774-d533f65dac99?w=800&q=80",
   teacher1: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&q=80",
   teacher2: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&q=80",
   teacher3: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&q=80",
-  teacher4: "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=400&q=80",
 };
 
 /* ============================================================
    🎥 VIMEO VIDEOS
    ============================================================ */
 const VIDEOS = [
+  { id: "1234439892", title: "A Day at Pathways", desc: "Step inside our vibrant classrooms and see learning come alive.", embed: "https://player.vimeo.com/video/1234439892?title=0&byline=0&portrait=0", color: "from-[#4A3B8C] to-[#29ABE2]" },
+  { id: "1234440179", title: "Learning Through Play", desc: "How hands-on activities spark curiosity and build confidence.", embed: "https://player.vimeo.com/video/1234440179?title=0&byline=0&portrait=0", color: "from-[#F7941E] to-[#E63946]" },
+  { id: "1234440263", title: "Our Happy Families", desc: "Parents share why Pathways feels like a second home.", embed: "https://player.vimeo.com/video/1234440263?title=0&byline=0&portrait=0", color: "from-[#39B54A] to-[#29ABE2]" },
+];
+
+/* ============================================================
+   📚 PROGRAMS DATA
+   ============================================================ */
+const PROGRAMS_DATA = [
   {
-    id: "1234439892",
-    title: "A Day at Pathways",
-    desc: "Step inside our vibrant classrooms and see learning come alive.",
-    embed: "https://player.vimeo.com/video/1234439892?title=0&byline=0&portrait=0",
-    color: "from-[#4A3B8C] to-[#29ABE2]",
+    age: "1.5 – 2.5 years", name: "Playgroup", tagline: "Nurturing Curiosity & Social Skills",
+    img: GALLERY_LOCAL[21], color: "bg-[#4A3B8C]",
+    points: ["Social interaction and sharing", "Sensory play and motor skill development", "Early language and communication skills", "Emotional development and independence"],
   },
   {
-    id: "1234440179",
-    title: "Learning Through Play",
-    desc: "How hands-on activities spark curiosity and build confidence.",
-    embed: "https://player.vimeo.com/video/1234440179?title=0&byline=0&portrait=0",
-    color: "from-[#F7941E] to-[#E63946]",
+    age: "2.5 – 3.5 years", name: "Nursery", tagline: "Building Foundations for Learning",
+    img: GALLERY_LOCAL[22], color: "bg-[#29ABE2]",
+    points: ["Introduction to early literacy and numeracy", "Fine and gross motor skills enhancement", "Social interaction and group play", "Creative expression through arts and crafts"],
   },
   {
-    id: "1234440263",
-    title: "Our Happy Families",
-    desc: "Parents share why Pathways feels like a second home.",
-    embed: "https://player.vimeo.com/video/1234440263?title=0&byline=0&portrait=0",
-    color: "from-[#39B54A] to-[#29ABE2]",
+    age: "3.5 – 4.5 years", name: "Junior KG", tagline: "Laying Groundwork for Structured Learning",
+    img: GALLERY_LOCAL[23], color: "bg-[#F7941E]",
+    points: ["Early literacy: letters, phonics, basic reading", "Numeracy: counting, sorting, patterns", "Storytelling, drawing, and role-play", "Teamwork and problem-solving"],
+  },
+  {
+    age: "4.5 – 5.5 years", name: "Senior KG", tagline: "Ready for the Next Big Step",
+    img: GALLERY_LOCAL[25], color: "bg-[#39B54A]",
+    points: ["Reading & writing readiness", "Basic addition, subtraction, problem-solving", "Science explorations and creative thinking", "Cooperation, leadership, responsibility"],
   },
 ];
 
 /* ============================================================
-   🎬 GLOBAL ANIMATIONS
+   📰 BLOG POSTS
+   ============================================================ */
+const BLOG_POSTS = [
+  {
+    id: 1, img: IMG.blog1, tag: "Play-Based Learning", title: "Why Play Is the Best Way to Learn",
+    desc: "Discover how guided play builds creativity, confidence and problem-solving skills in early years.",
+    date: "Mar 15, 2025", author: "Ms. Kavita Rao", readTime: "5 min read",
+    content: [
+      "Play is not just fun — it is the most powerful way young children learn. Through play, children explore the world around them, test ideas, solve problems, and build the social and emotional skills they will carry for life.",
+      "At Pathways Preschool & Daycare, we blend structured activities with free, guided play. This balance allows children to learn at their own pace while discovering the joy of curiosity and imagination.",
+      "Research shows that play-based learning strengthens brain development, improves language and communication, and builds confidence. When children play together, they learn to share, negotiate, and cooperate — all essential life skills.",
+      "Some of our favourite play-based activities include building blocks, sensory bins, pretend play, storytelling, and outdoor exploration. Each activity is carefully designed to spark a specific skill while keeping the joy of learning alive.",
+      "As parents, you can support play-based learning at home too. Keep simple toys, allow free play time, and join your child in their imaginary world. You'll be amazed at how much they learn when they're having fun.",
+    ],
+  },
+  {
+    id: 2, img: IMG.blog2, tag: "Parenting Tips", title: "5 Ways to Prepare Your Child for Preschool",
+    desc: "Simple routines and activities that make the first day of school smoother and happier.",
+    date: "Mar 08, 2025", author: "Ms. Anjali Mehta", readTime: "4 min read",
+    content: [
+      "Starting preschool is a big milestone — for both you and your child. A little preparation can make the transition smoother, happier and more exciting for everyone.",
+      "1. Establish a routine early. Practice wake-up, meal, and nap times that match your preschool schedule. A predictable routine helps your child feel secure.",
+      "2. Talk about school positively. Read books about preschool, visit the campus before the first day, and let your child meet the teachers.",
+      "3. Encourage independence. Let your child practice putting on shoes, opening their lunchbox, and using the bathroom on their own.",
+      "4. Create a goodbye ritual. A short, confident goodbye — a hug, a kiss, and a wave — helps your child understand you'll always come back.",
+      "5. Stay calm and patient. Every child adjusts at their own pace. Trust the process and celebrate small wins along the way.",
+    ],
+  },
+  {
+    id: 3, img: IMG.blog3, tag: "Child Development", title: "Building Social Skills in Early Years",
+    desc: "How sharing, teamwork and friendship shape your child's emotional growth.",
+    date: "Feb 28, 2025", author: "Ms. Riya Kapoor", readTime: "6 min read",
+    content: [
+      "Social skills are the foundation of healthy relationships — and the early years are the best time to build them. At Pathways, we create daily opportunities for children to interact, share and cooperate.",
+      "Between ages 2 and 5, children move from parallel play (playing beside others) to cooperative play (playing with others). This is when they learn to take turns, share toys, and express their feelings.",
+      "Group activities like circle time, music, art projects, and outdoor games give children natural chances to practise these skills. Teachers gently guide them through conflicts and celebrate kind behaviour.",
+      "Parents can help at home by arranging playdates, modelling polite language, and encouraging children to talk about their day. Asking questions like 'What did you play today?' opens up meaningful conversations.",
+      "Remember, social skills take time to develop. Be patient, celebrate progress, and trust that your child is learning every day — one small interaction at a time.",
+    ],
+  },
+  {
+    id: 4, img: GALLERY_LOCAL[4], tag: "Learning", title: "The Magic of Storytelling in Early Education",
+    desc: "How stories build vocabulary, imagination and a lifelong love for reading.",
+    date: "Feb 20, 2025", author: "Ms. Neha Singh", readTime: "5 min read",
+    content: [
+      "Storytelling is one of the oldest — and most powerful — teaching tools. In our classrooms, stories are a daily ritual that children look forward to.",
+      "When children listen to stories, they build vocabulary, improve listening skills, and learn about emotions, relationships, and the world around them. Stories also spark imagination and creativity.",
+      "We use puppets, props, and expressive voices to bring stories to life. Children then retell the stories in their own words, draw their favourite characters, or act them out with friends.",
+      "At home, read aloud to your child every day — even if it's just for 10 minutes. Ask questions, point to pictures, and let your child guess what happens next.",
+      "Reading together is not just about books. It's about connection, love, and the joy of sharing a story. Those moments become lifelong memories.",
+    ],
+  },
+  {
+    id: 5, img: GALLERY_LOCAL[10], tag: "Health & Nutrition", title: "Healthy Snacks Your Preschooler Will Love",
+    desc: "Quick, nutritious and kid-approved snack ideas for growing minds.",
+    date: "Feb 12, 2025", author: "Ms. Kavita Rao", readTime: "4 min read",
+    content: [
+      "Healthy eating habits start early. Preschoolers need balanced snacks that fuel their growing bodies and curious minds.",
+      "Some of our favourites: fruit slices with yogurt dip, whole-grain crackers with cheese, veggie sticks with hummus, banana-oat muffins, and homemade trail mix with nuts and dried fruit.",
+      "Keep snacks colourful and fun. Children are more likely to try foods that look appealing. Use cookie cutters to make fun shapes from fruits and sandwiches.",
+      "Involve your child in snack preparation. Let them wash vegetables, stir ingredients, or arrange food on a plate. Children who help prepare food are more likely to eat it.",
+      "Avoid sugary drinks and packaged snacks. Water and fresh fruit are always the best choices. Small changes today build lifelong healthy habits.",
+    ],
+  },
+  {
+    id: 6, img: GALLERY_LOCAL[15], tag: "Activities", title: "10 Indoor Activities That Boost Creativity",
+    desc: "Simple activities to keep little ones engaged and learning at home.",
+    date: "Feb 05, 2025", author: "Ms. Anjali Mehta", readTime: "5 min read",
+    content: [
+      "Rainy days or quiet afternoons at home don't have to be boring. Here are 10 easy indoor activities that keep little hands and minds busy.",
+      "1. Sensory bins — fill a tub with rice, beans, or water beads and add scoops and toys.",
+      "2. Playdough — make your own with flour, salt, and water. Add food colouring for fun.",
+      "3. Puppet shows — use socks, paper bags, or stuffed animals to create stories.",
+      "4. Block towers — build the tallest tower, then knock it down and rebuild.",
+      "5. Kitchen science — mix baking soda and vinegar for a fizzing surprise.",
+      "6. Dance party — put on music and move! Great for physical development.",
+      "7. Story drawing — read a book and let your child draw their favourite part.",
+      "8. Treasure hunt — hide small toys and give simple clues.",
+      "9. Sorting games — sort buttons, pasta, or blocks by colour, size, or shape.",
+      "10. Cooking together — simple no-bake recipes your child can help with.",
+      "Each activity builds fine motor skills, creativity, problem-solving, and language — all while having fun!",
+    ],
+  },
+];
+
+/* ============================================================
+   🎬 GLOBAL ANIMATIONS + CURSOR POINTER
    ============================================================ */
 function GlobalStyles() {
   return (
@@ -156,6 +246,8 @@ function GlobalStyles() {
       }
       .marquee-track:hover { animation-play-state: paused; }
       .marquee-item { flex-shrink: 0; padding: 0 1.5rem; }
+
+      a, button, [role="button"], select, summary { cursor: pointer; }
 
       .anim-float      { animation: float 6s ease-in-out infinite; }
       .anim-float-slow { animation: floatSlow 9s ease-in-out infinite; }
@@ -300,7 +392,7 @@ function Navbar() {
     <header className={`sticky top-0 z-50 transition-all duration-300 ${scrolled ? "bg-white shadow-lg" : "bg-white/95 backdrop-blur"}`}>
       <WelcomeMarquee />
       <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-2">
-        <Link to="/" className="flex items-center gap-3 shrink-0 group">
+        <Link to="/" className="flex items-center gap-3 shrink-0 group cursor-pointer">
           <div className="group-hover:scale-105 transition-transform duration-300"><Logo /></div>
           <div className="hidden xl:block border-l-2 border-[#F7941E] pl-3">
             <p className="font-extrabold text-lg text-[#4A3B8C] leading-tight">Pathways</p>
@@ -311,18 +403,18 @@ function Navbar() {
           {links.map((l) => (
             <NavLink key={l.to} to={l.to}
               className={({ isActive }) =>
-                `px-2.5 py-2 rounded-full font-semibold transition text-xs xl:text-sm ${
+                `px-2.5 py-2 rounded-full font-semibold transition text-xs xl:text-sm cursor-pointer ${
                   isActive ? "bg-[#4A3B8C] text-white shadow" : "text-[#4A3B8C] hover:bg-[#4A3B8C]/10"
                 }`}>
               {l.label}
             </NavLink>
           ))}
           <Link to="/admissions"
-            className="ml-1 inline-flex items-center gap-1.5 bg-[#F7941E] hover:bg-orange-600 text-white font-semibold px-3 py-2 rounded-full shadow-lg hover:shadow-xl transition text-xs xl:text-sm anim-pulse-glow">
+            className="ml-1 inline-flex items-center gap-1.5 bg-[#F7941E] hover:bg-orange-600 text-white font-semibold px-3 py-2 rounded-full shadow-lg hover:shadow-xl transition text-xs xl:text-sm anim-pulse-glow cursor-pointer">
             Enroll <FaArrowRight size={12} />
           </Link>
         </nav>
-        <button className="lg:hidden text-[#4A3B8C] text-2xl" onClick={() => setOpen(!open)} aria-label="Menu">
+        <button className="lg:hidden text-[#4A3B8C] text-2xl cursor-pointer" onClick={() => setOpen(!open)} aria-label="Menu">
           {open ? <FaTimes /> : <FaBars />}
         </button>
       </div>
@@ -332,14 +424,14 @@ function Navbar() {
             {links.map((l) => (
               <NavLink key={l.to} to={l.to} onClick={() => setOpen(false)}
                 className={({ isActive }) =>
-                  `px-4 py-3 rounded-2xl font-semibold ${
+                  `px-4 py-3 rounded-2xl font-semibold cursor-pointer ${
                     isActive ? "bg-[#4A3B8C] text-white" : "text-[#4A3B8C] hover:bg-[#4A3B8C]/10"
                   }`}>
                 {l.label}
               </NavLink>
             ))}
             <Link to="/admissions" onClick={() => setOpen(false)}
-              className="mt-2 inline-flex items-center justify-center gap-2 bg-[#F7941E] text-white font-semibold px-5 py-3 rounded-full shadow-lg">
+              className="mt-2 inline-flex items-center justify-center gap-2 bg-[#F7941E] text-white font-semibold px-5 py-3 rounded-full shadow-lg cursor-pointer">
               Admission Open <FaArrowRight />
             </Link>
           </div>
@@ -357,12 +449,12 @@ function FloatingButtons() {
   return (
     <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3 items-end">
       <a href={`tel:${SOCIAL.phone}`} aria-label="Call Now"
-        className="group relative bg-[#29ABE2] hover:bg-[#1e8fc2] text-white w-14 h-14 rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-all duration-300 anim-pulse-glow-blue">
+        className="group relative bg-[#29ABE2] hover:bg-[#1e8fc2] text-white w-14 h-14 rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-all duration-300 anim-pulse-glow-blue cursor-pointer">
         <FaPhone size={22} className="anim-ring" />
         <span className="absolute right-full mr-3 bg-[#4A3B8C] text-white text-xs font-semibold px-3 py-2 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">Call Us Now</span>
       </a>
       <a href={`https://wa.me/${SOCIAL.whatsapp}?text=${waMsg}`} target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp"
-        className="group relative bg-[#25D366] hover:bg-[#20ba5a] text-white w-16 h-16 rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-all duration-300 anim-pulse-glow-green">
+        className="group relative bg-[#25D366] hover:bg-[#20ba5a] text-white w-16 h-16 rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-all duration-300 anim-pulse-glow-green cursor-pointer">
         <FaWhatsapp size={34} />
         <span className="absolute inline-flex h-full w-full rounded-full bg-[#25D366] opacity-40 animate-ping"></span>
         <span className="absolute right-full mr-3 bg-[#4A3B8C] text-white text-xs font-semibold px-3 py-2 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">Chat on WhatsApp</span>
@@ -384,23 +476,23 @@ function Footer() {
             Learners Today, Leaders Tomorrow. A warm, nurturing space where young minds bloom through play-based learning.
           </p>
           <div className="flex gap-3 mt-5">
-            <a href={SOCIAL.facebook} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/10 hover:bg-[#29ABE2] hover:scale-110 flex items-center justify-center transition"><FaFacebookF /></a>
-            <a href={SOCIAL.instagram} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/10 hover:bg-pink-500 hover:scale-110 flex items-center justify-center transition"><FaInstagram /></a>
-            <a href={SOCIAL.youtube} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/10 hover:bg-red-500 hover:scale-110 flex items-center justify-center transition"><FaYoutube /></a>
+            <a href={SOCIAL.facebook} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/10 hover:bg-[#29ABE2] hover:scale-110 flex items-center justify-center transition cursor-pointer"><FaFacebookF /></a>
+            <a href={SOCIAL.instagram} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/10 hover:bg-pink-500 hover:scale-110 flex items-center justify-center transition cursor-pointer"><FaInstagram /></a>
+            <a href={SOCIAL.youtube} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/10 hover:bg-red-500 hover:scale-110 flex items-center justify-center transition cursor-pointer"><FaYoutube /></a>
           </div>
         </div>
         <div>
           <h4 className="font-bold text-xl mb-4 text-[#FFD93D]">Quick Links</h4>
           <ul className="space-y-2 text-white/85 text-sm">
-            <li><Link to="/" className="hover:text-[#FFD93D]">Home</Link></li>
-            <li><Link to="/about" className="hover:text-[#FFD93D]">About Us</Link></li>
-            <li><Link to="/programs" className="hover:text-[#FFD93D]">Programs</Link></li>
-            <li><Link to="/admissions" className="hover:text-[#FFD93D]">Admissions</Link></li>
-            <li><Link to="/videos" className="hover:text-[#FFD93D]">Videos</Link></li>
-            <li><Link to="/gallery" className="hover:text-[#FFD93D]">Gallery</Link></li>
-            <li><Link to="/blog" className="hover:text-[#FFD93D]">Blog</Link></li>
-            <li><Link to="/faq" className="hover:text-[#FFD93D]">FAQ</Link></li>
-            <li><Link to="/contact" className="hover:text-[#FFD93D]">Contact</Link></li>
+            <li><Link to="/" className="hover:text-[#FFD93D] cursor-pointer">Home</Link></li>
+            <li><Link to="/about" className="hover:text-[#FFD93D] cursor-pointer">About Us</Link></li>
+            <li><Link to="/programs" className="hover:text-[#FFD93D] cursor-pointer">Programs</Link></li>
+            <li><Link to="/admissions" className="hover:text-[#FFD93D] cursor-pointer">Admissions</Link></li>
+            <li><Link to="/videos" className="hover:text-[#FFD93D] cursor-pointer">Videos</Link></li>
+            <li><Link to="/gallery" className="hover:text-[#FFD93D] cursor-pointer">Gallery</Link></li>
+            <li><Link to="/blog" className="hover:text-[#FFD93D] cursor-pointer">Blog</Link></li>
+            <li><Link to="/faq" className="hover:text-[#FFD93D] cursor-pointer">FAQ</Link></li>
+            <li><Link to="/contact" className="hover:text-[#FFD93D] cursor-pointer">Contact</Link></li>
           </ul>
         </div>
         <div>
@@ -417,13 +509,18 @@ function Footer() {
           <h4 className="font-bold text-xl mb-4 text-[#FFD93D]">Reach Us</h4>
           <ul className="space-y-3 text-white/85 text-sm">
             <li className="flex gap-3"><FaMapMarkerAlt className="mt-1 text-[#FFD93D]" /><span>{SOCIAL.address}</span></li>
-            <li className="flex gap-3"><FaPhoneAlt className="mt-1 text-[#FFD93D]" /><a href={`tel:${SOCIAL.phone}`}>{SOCIAL.phoneDisplay}</a></li>
-            <li className="flex gap-3"><FaEnvelope className="mt-1 text-[#FFD93D]" /><a href={`mailto:${SOCIAL.email}`}>{SOCIAL.email}</a></li>
+            <li className="flex gap-3"><FaPhoneAlt className="mt-1 text-[#FFD93D]" /><a href={`tel:${SOCIAL.phone}`} className="cursor-pointer">{SOCIAL.phoneDisplay}</a></li>
+            <li className="flex gap-3"><FaEnvelope className="mt-1 text-[#FFD93D]" /><a href={`mailto:${SOCIAL.email}`} className="cursor-pointer">{SOCIAL.email}</a></li>
           </ul>
         </div>
       </div>
-      <div className="border-t border-white/15 py-5 text-center text-sm text-white/70">
-        © {new Date().getFullYear()} Pathways Preschool & Daycare. All rights reserved. | Made with <FaHeart className="inline text-[#E63946] anim-wiggle" /> for little learners.
+
+      <div className="border-t border-white/15 py-5 text-center text-sm text-white/80">
+        Design and developed by{" "}
+        <a href="https://www.ficuslot.com" target="_blank" rel="noopener noreferrer"
+          className="font-bold text-[#FFD93D] hover:text-white underline decoration-dotted underline-offset-4 transition cursor-pointer">
+          Ficuslot Innovation Pvt Ltd
+        </a>
       </div>
     </footer>
   );
@@ -459,10 +556,10 @@ function Banner() {
         <h2 className="text-3xl md:text-5xl font-extrabold mb-4">Where Curiosity Meets Creativity</h2>
         <p className="text-lg text-white/90 mb-8">A happy, safe and stimulating environment where every child's potential is nurtured with love and care.</p>
         <div className="flex flex-wrap gap-4 justify-center">
-          <Link to="/programs" className="inline-flex items-center gap-2 bg-[#FFD93D] text-[#4A3B8C] font-bold px-8 py-3.5 rounded-full shadow-xl hover:scale-105 transition">
+          <Link to="/programs" className="inline-flex items-center gap-2 bg-[#FFD93D] text-[#4A3B8C] font-bold px-8 py-3.5 rounded-full shadow-xl hover:scale-105 transition cursor-pointer">
             Explore Programs <FaArrowRight />
           </Link>
-          <a href={`tel:${SOCIAL.phone}`} className="inline-flex items-center gap-2 bg-white/15 backdrop-blur border-2 border-white text-white hover:bg-white hover:text-[#4A3B8C] font-bold px-8 py-3.5 rounded-full shadow-xl transition">
+          <a href={`tel:${SOCIAL.phone}`} className="inline-flex items-center gap-2 bg-white/15 backdrop-blur border-2 border-white text-white hover:bg-white hover:text-[#4A3B8C] font-bold px-8 py-3.5 rounded-full shadow-xl transition cursor-pointer">
             <FaPhone /> Call Us
           </a>
         </div>
@@ -542,11 +639,11 @@ function AboutSection() {
 
             <div className="flex flex-wrap gap-4">
               <Link to="/about"
-                className="inline-flex items-center gap-2 bg-[#4A3B8C] hover:bg-purple-900 text-white font-bold px-6 py-3 rounded-full shadow-lg hover:-translate-y-1 transition anim-pulse-glow">
+                className="inline-flex items-center gap-2 bg-[#4A3B8C] hover:bg-purple-900 text-white font-bold px-6 py-3 rounded-full shadow-lg hover:-translate-y-1 transition anim-pulse-glow cursor-pointer">
                 Learn More About Us <FaArrowRight />
               </Link>
               <a href={`tel:${SOCIAL.phone}`}
-                className="inline-flex items-center gap-2 border-2 border-[#4A3B8C] text-[#4A3B8C] hover:bg-[#4A3B8C] hover:text-white font-bold px-6 py-3 rounded-full transition">
+                className="inline-flex items-center gap-2 border-2 border-[#4A3B8C] text-[#4A3B8C] hover:bg-[#4A3B8C] hover:text-white font-bold px-6 py-3 rounded-full transition cursor-pointer">
                 <FaPhone /> Call Us
               </a>
             </div>
@@ -556,73 +653,6 @@ function AboutSection() {
     </section>
   );
 }
-
-/* ============================================================
-   👩‍🏫 TEACHERS
-   ============================================================ */
-function Teachers() {
-  const team = [
-    { name: "Ms. Kavita Rao", role: "Principal", exp: "15+ years", img: IMG.teacher1, color: "from-[#4A3B8C] to-[#6C5CE7]", badge: "bg-[#4A3B8C]", icon: <FaSchool /> },
-    { name: "Ms. Anjali Mehta", role: "Head of Nursery", exp: "10+ years", img: IMG.teacher2, color: "from-[#F7941E] to-[#FFD93D]", badge: "bg-[#F7941E]", icon: <FaChalkboardTeacher /> },
-    { name: "Ms. Riya Kapoor", role: "Playgroup Lead", exp: "8+ years", img: IMG.teacher3, color: "from-[#39B54A] to-lime-400", badge: "bg-[#39B54A]", icon: <FaChild /> },
-    { name: "Ms. Neha Singh", role: "Junior KG Lead", exp: "9+ years", img: IMG.teacher4, color: "from-[#E63946] to-pink-400", badge: "bg-[#E63946]", icon: <FaUserGraduate /> },
-  ];
-
-  return (
-    <section className="bg-white py-20">
-      <div className="max-w-7xl mx-auto px-6">
-        <Reveal>
-          <div className="text-center mb-12">
-            <span className="inline-flex items-center gap-2 bg-[#4A3B8C]/10 text-[#4A3B8C] font-semibold px-4 py-1.5 rounded-full text-sm mb-4">
-              <FaChalkboardTeacher /> Meet Our Team
-            </span>
-            <h2 className="text-4xl md:text-5xl font-extrabold text-[#4A3B8C] mb-4">Caring Educators</h2>
-            <p className="text-center text-gray-600 max-w-2xl mx-auto">
-              Passionate, qualified and warm — the heart of Pathways.
-            </p>
-          </div>
-        </Reveal>
-
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {team.map((t, i) => (
-            <Reveal key={i} delay={i * 120} direction="zoom">
-              <div className={`bg-gradient-to-br ${t.color} text-white rounded-3xl p-6 shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all h-full group relative overflow-hidden`}>
-                <div className="absolute -top-4 -right-4 text-7xl opacity-10 group-hover:opacity-20 transition-opacity">
-                  {t.icon}
-                </div>
-                <div className="relative mb-5 flex justify-center">
-                  <img src={t.img} alt={t.name}
-                    className="w-28 h-28 rounded-full object-cover border-4 border-white/40 shadow-2xl group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300" />
-                  <span className={`absolute bottom-0 right-1/2 translate-x-12 ${t.badge} text-white text-[10px] font-bold px-2.5 py-1 rounded-full shadow-lg border-2 border-white`}>
-                    {t.exp}
-                  </span>
-                </div>
-                <div className="text-3xl mb-3 group-hover:scale-125 group-hover:rotate-6 transition-transform inline-block">
-                  {t.icon}
-                </div>
-                <h3 className="font-bold text-xl mb-1 relative">{t.name}</h3>
-                <p className="text-sm text-white/90 font-medium mb-4 relative">{t.role}</p>
-                <div className="flex items-center gap-2 text-xs bg-white/15 backdrop-blur rounded-full px-3 py-1.5 w-fit">
-                  <FaStar className="text-[#FFD93D]" /> Expert Educator
-                </div>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ============================================================
-   📚 PROGRAMS DATA
-   ============================================================ */
-const PROGRAMS_DATA = [
-  { age: "1.5 – 2.5 years", name: "Playgroup", tagline: "Nurturing Curiosity & Social Skills", img: IMG.programPlay, color: "bg-[#4A3B8C]", points: ["Social interaction and sharing", "Sensory play and motor skill development", "Early language and communication skills", "Emotional development and independence"] },
-  { age: "2.5 – 3.5 years", name: "Nursery", tagline: "Building Foundations for Learning", img: IMG.programNursery, color: "bg-[#29ABE2]", points: ["Introduction to early literacy and numeracy", "Fine and gross motor skills enhancement", "Social interaction and group play", "Creative expression through arts and crafts"] },
-  { age: "3.5 – 4.5 years", name: "Junior KG", tagline: "Laying Groundwork for Structured Learning", img: IMG.programJunior, color: "bg-[#F7941E]", points: ["Early literacy: letters, phonics, basic reading", "Numeracy: counting, sorting, patterns", "Storytelling, drawing, and role-play", "Teamwork and problem-solving"] },
-  { age: "4.5 – 5.5 years", name: "Senior KG", tagline: "Ready for the Next Big Step", img: IMG.programSenior, color: "bg-[#39B54A]", points: ["Reading & writing readiness", "Basic addition, subtraction, problem-solving", "Science explorations and creative thinking", "Cooperation, leadership, responsibility"] },
-];
 
 /* ============================================================
    📞 CONTACT FORM
@@ -652,7 +682,7 @@ function ContactForm() {
       <div>
         <label className="block text-sm font-semibold text-[#4A3B8C] mb-1">Program Interested In</label>
         <select value={form.program} onChange={(e) => setForm({ ...form, program: e.target.value })}
-          className="w-full px-4 py-3 rounded-2xl border-2 border-gray-200 focus:border-[#F7941E] outline-none transition">
+          className="w-full px-4 py-3 rounded-2xl border-2 border-gray-200 focus:border-[#F7941E] outline-none transition cursor-pointer">
           {["Playgroup", "Nursery", "Junior KG", "Senior KG", "Daycare"].map((p) => <option key={p}>{p}</option>)}
         </select>
       </div>
@@ -662,7 +692,7 @@ function ContactForm() {
           onChange={(e) => setForm({ ...form, message: e.target.value })}
           className="w-full px-4 py-3 rounded-2xl border-2 border-gray-200 focus:border-[#F7941E] outline-none transition"></textarea>
       </div>
-      <button type="submit" className="w-full inline-flex items-center justify-center gap-2 bg-[#F7941E] hover:bg-orange-600 text-white font-semibold px-6 py-3 rounded-full shadow-lg transition">
+      <button type="submit" className="w-full inline-flex items-center justify-center gap-2 bg-[#F7941E] hover:bg-orange-600 text-white font-semibold px-6 py-3 rounded-full shadow-lg transition cursor-pointer">
         Send via WhatsApp <FaWhatsapp />
       </button>
     </form>
@@ -696,7 +726,7 @@ function FAQSection() {
           {faqs.map((f, i) => (
             <Reveal key={i} delay={i * 80}>
               <div className="bg-[#FFF8F0] rounded-3xl shadow hover:shadow-lg transition overflow-hidden">
-                <button onClick={() => setOpen(open === i ? -1 : i)} className="w-full flex items-center justify-between p-5 text-left">
+                <button onClick={() => setOpen(open === i ? -1 : i)} className="w-full flex items-center justify-between p-5 text-left cursor-pointer">
                   <span className="font-bold text-lg text-[#4A3B8C] pr-4">{f.q}</span>
                   <span className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 transition-all ${open === i ? "bg-[#F7941E] text-white rotate-180" : "bg-[#4A3B8C]/10 text-[#4A3B8C]"}`}>
                     {open === i ? <FaMinus /> : <FaPlus />}
@@ -799,7 +829,7 @@ function VideoSection({ compact = false }) {
                   <h3 className="font-bold text-xl text-[#4A3B8C] mb-2 leading-snug">{v.title}</h3>
                   <p className="text-gray-600 text-sm flex-1">{v.desc}</p>
                   <a href={`https://vimeo.com/${v.id}`} target="_blank" rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 text-[#F7941E] font-semibold hover:gap-3 transition-all self-start mt-4">
+                    className="inline-flex items-center gap-2 text-[#F7941E] font-semibold hover:gap-3 transition-all self-start mt-4 cursor-pointer">
                     Watch on Vimeo <FaArrowRight />
                   </a>
                 </div>
@@ -812,7 +842,7 @@ function VideoSection({ compact = false }) {
           <Reveal delay={300}>
             <div className="text-center mt-12">
               <Link to="/videos"
-                className="inline-flex items-center gap-2 bg-[#4A3B8C] hover:bg-purple-900 text-white font-bold px-8 py-3.5 rounded-full shadow-xl hover:-translate-y-1 transition">
+                className="inline-flex items-center gap-2 bg-[#4A3B8C] hover:bg-purple-900 text-white font-bold px-8 py-3.5 rounded-full shadow-xl hover:-translate-y-1 transition cursor-pointer">
                 View All Videos <FaVideo />
               </Link>
             </div>
@@ -869,15 +899,15 @@ function Gallery({ limit }) {
       </div>
 
       {lightbox !== null && (
-        <div className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center p-4" onClick={() => setLightbox(null)}>
-          <button className="absolute top-5 right-5 text-white text-3xl w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition"
+        <div className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center p-4 cursor-pointer" onClick={() => setLightbox(null)}>
+          <button className="absolute top-5 right-5 text-white text-3xl w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition cursor-pointer"
             onClick={() => setLightbox(null)} aria-label="Close"><FaTimes /></button>
-          <button className="absolute left-4 md:left-8 text-white text-3xl w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition"
+          <button className="absolute left-4 md:left-8 text-white text-3xl w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition cursor-pointer"
             onClick={(e) => { e.stopPropagation(); setLightbox((i) => (i - 1 + pics.length) % pics.length); }} aria-label="Previous">‹</button>
           <img src={pics[lightbox]} alt={`Gallery ${lightbox + 1}`}
             className="max-h-[85vh] max-w-[90vw] object-contain rounded-2xl shadow-2xl"
             onClick={(e) => e.stopPropagation()} />
-          <button className="absolute right-4 md:right-8 text-white text-3xl w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition"
+          <button className="absolute right-4 md:right-8 text-white text-3xl w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition cursor-pointer"
             onClick={(e) => { e.stopPropagation(); setLightbox((i) => (i + 1) % pics.length); }} aria-label="Next">›</button>
           <div className="absolute bottom-5 left-1/2 -translate-x-1/2 bg-white/10 text-white text-sm font-semibold px-4 py-2 rounded-full">
             {lightbox + 1} / {pics.length}
@@ -889,16 +919,28 @@ function Gallery({ limit }) {
 }
 
 /* ============================================================
-   📰 BLOG
+   📰 BLOG CARD
    ============================================================ */
-const BLOG_POSTS = [
-  { img: IMG.blog1, tag: "Play-Based Learning", title: "Why Play Is the Best Way to Learn", desc: "Discover how guided play builds creativity, confidence and problem-solving skills in early years.", date: "Mar 15, 2025" },
-  { img: IMG.blog2, tag: "Parenting Tips", title: "5 Ways to Prepare Your Child for Preschool", desc: "Simple routines and activities that make the first day of school smoother and happier.", date: "Mar 08, 2025" },
-  { img: IMG.blog3, tag: "Child Development", title: "Building Social Skills in Early Years", desc: "How sharing, teamwork and friendship shape your child's emotional growth.", date: "Feb 28, 2025" },
-  { img: GALLERY_LOCAL[4], tag: "Learning", title: "The Magic of Storytelling in Early Education", desc: "How stories build vocabulary, imagination and a lifelong love for reading.", date: "Feb 20, 2025" },
-  { img: GALLERY_LOCAL[10], tag: "Health & Nutrition", title: "Healthy Snacks Your Preschooler Will Love", desc: "Quick, nutritious and kid-approved snack ideas for growing minds.", date: "Feb 12, 2025" },
-  { img: GALLERY_LOCAL[15], tag: "Activities", title: "10 Indoor Activities That Boost Creativity", desc: "Simple activities to keep little ones engaged and learning at home.", date: "Feb 05, 2025" },
-];
+function BlogCard({ post }) {
+  return (
+    <Link to={`/blog/${post.id}`} className="block cursor-pointer">
+      <article className="bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden hover:-translate-y-2 h-full flex flex-col group">
+        <div className="relative overflow-hidden h-56">
+          <img src={post.img} alt={post.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+          <span className="absolute top-4 left-4 bg-[#F7941E] text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg">{post.tag}</span>
+        </div>
+        <div className="p-6 flex flex-col flex-1">
+          <p className="text-xs text-gray-500 font-semibold mb-2 flex items-center gap-2"><FaCalendarAlt /> {post.date}</p>
+          <h3 className="font-bold text-xl text-[#4A3B8C] mb-3 leading-snug">{post.title}</h3>
+          <p className="text-gray-600 text-sm mb-4 flex-1">{post.desc}</p>
+          <span className="inline-flex items-center gap-2 text-[#F7941E] font-semibold group-hover:gap-3 transition-all self-start">
+            Read More <FaArrowRight />
+          </span>
+        </div>
+      </article>
+    </Link>
+  );
+}
 
 function BlogSection({ limit }) {
   const posts = limit ? BLOG_POSTS.slice(0, limit) : BLOG_POSTS;
@@ -914,19 +956,8 @@ function BlogSection({ limit }) {
         </Reveal>
         <div className="grid md:grid-cols-3 gap-8">
           {posts.map((b, i) => (
-            <Reveal key={i} delay={i * 150}>
-              <article className="bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden hover:-translate-y-2 h-full flex flex-col group">
-                <div className="relative overflow-hidden h-56">
-                  <img src={b.img} alt={b.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
-                  <span className="absolute top-4 left-4 bg-[#F7941E] text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg">{b.tag}</span>
-                </div>
-                <div className="p-6 flex flex-col flex-1">
-                  <p className="text-xs text-gray-500 font-semibold mb-2 flex items-center gap-2"><FaCalendarAlt /> {b.date}</p>
-                  <h3 className="font-bold text-xl text-[#4A3B8C] mb-3 leading-snug">{b.title}</h3>
-                  <p className="text-gray-600 text-sm mb-4 flex-1">{b.desc}</p>
-                  <button className="inline-flex items-center gap-2 text-[#F7941E] font-semibold hover:gap-3 transition-all self-start">Read More <FaArrowRight /></button>
-                </div>
-              </article>
+            <Reveal key={b.id} delay={i * 150}>
+              <BlogCard post={b} />
             </Reveal>
           ))}
         </div>
@@ -936,7 +967,80 @@ function BlogSection({ limit }) {
 }
 
 /* ============================================================
-   🏠 HOME  ✅ Hero → About → Counters → Baaki Sab
+   📖 BLOG DETAIL PAGE
+   ============================================================ */
+function BlogDetail() {
+  const { id } = useParams();
+  const post = BLOG_POSTS.find((p) => p.id === parseInt(id));
+  const related = BLOG_POSTS.filter((p) => p.id !== parseInt(id)).slice(0, 3);
+
+  if (!post) {
+    return (
+      <div className="py-32 text-center">
+        <h1 className="text-6xl font-extrabold text-[#4A3B8C] mb-4">404</h1>
+        <p className="text-gray-600 mb-6">Blog post not found.</p>
+        <Link to="/blog" className="inline-flex items-center gap-2 bg-[#F7941E] text-white font-semibold px-6 py-3 rounded-full cursor-pointer">
+          <FaArrowLeft /> Back to Blog
+        </Link>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <section className="relative h-[50vh] min-h-[350px] overflow-hidden">
+        <img src={post.img} alt={post.title} className="absolute inset-0 w-full h-full object-cover" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#4A3B8C]/95 via-[#4A3B8C]/60 to-transparent"></div>
+        <div className="relative max-w-4xl mx-auto px-6 h-full flex flex-col justify-end pb-10 text-white">
+          <span className="inline-block bg-[#F7941E] text-white text-xs font-bold px-3 py-1.5 rounded-full self-start mb-4">{post.tag}</span>
+          <h1 className="text-3xl md:text-5xl font-extrabold mb-3 leading-tight">{post.title}</h1>
+          <div className="flex flex-wrap items-center gap-4 text-sm text-white/90">
+            <span className="flex items-center gap-2"><FaUser /> {post.author}</span>
+            <span className="flex items-center gap-2"><FaCalendarAlt /> {post.date}</span>
+            <span className="flex items-center gap-2"><FaClock /> {post.readTime}</span>
+          </div>
+        </div>
+      </section>
+
+      <article className="max-w-3xl mx-auto px-6 py-14">
+        <Link to="/blog" className="inline-flex items-center gap-2 text-[#F7941E] font-semibold mb-8 hover:gap-3 transition-all cursor-pointer">
+          <FaArrowLeft /> Back to Blog
+        </Link>
+        {post.content.map((para, i) => (
+          <p key={i} className="text-gray-700 leading-relaxed mb-5 text-lg">{para}</p>
+        ))}
+
+        <div className="mt-12 p-6 bg-[#FFF8F0] rounded-3xl border-l-4 border-[#F7941E]">
+          <p className="text-[#4A3B8C] font-semibold mb-3">Enjoyed this article?</p>
+          <div className="flex flex-wrap gap-3">
+            <Link to="/admissions" className="inline-flex items-center gap-2 bg-[#F7941E] hover:bg-orange-600 text-white font-semibold px-5 py-2.5 rounded-full transition cursor-pointer">
+              Enroll Now <FaArrowRight />
+            </Link>
+            <Link to="/contact" className="inline-flex items-center gap-2 border-2 border-[#4A3B8C] text-[#4A3B8C] hover:bg-[#4A3B8C] hover:text-white font-semibold px-5 py-2.5 rounded-full transition cursor-pointer">
+              Contact Us
+            </Link>
+          </div>
+        </div>
+      </article>
+
+      {related.length > 0 && (
+        <section className="bg-[#FFF8F0] py-16">
+          <div className="max-w-7xl mx-auto px-6">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-[#4A3B8C] text-center mb-10">Related Articles</h2>
+            <div className="grid md:grid-cols-3 gap-8">
+              {related.map((b) => (
+                <BlogCard key={b.id} post={b} />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+    </div>
+  );
+}
+
+/* ============================================================
+   🏠 HOME
    ============================================================ */
 function Home() {
   return (
@@ -957,8 +1061,8 @@ function Home() {
               Enroll your child into a world of endless possibilities and imagination where learning sparks curiosity and shapes the future.
             </p>
             <div className="flex flex-wrap gap-4">
-              <a href="#contact-section" className="inline-flex items-center gap-2 bg-[#F7941E] hover:bg-orange-600 text-white font-semibold px-6 py-3 rounded-full shadow-lg hover:shadow-xl transition-all hover:-translate-y-0.5">Contact Us <FaArrowRight /></a>
-              <a href={`tel:${SOCIAL.phone}`} className="inline-flex items-center gap-2 bg-[#29ABE2] hover:bg-[#1e8fc2] text-white font-semibold px-6 py-3 rounded-full shadow-lg transition-all hover:-translate-y-0.5"><FaPhone /> Call Now</a>
+              <a href="#contact-section" className="inline-flex items-center gap-2 bg-[#F7941E] hover:bg-orange-600 text-white font-semibold px-6 py-3 rounded-full shadow-lg hover:shadow-xl transition-all hover:-translate-y-0.5 cursor-pointer">Contact Us <FaArrowRight /></a>
+              <a href={`tel:${SOCIAL.phone}`} className="inline-flex items-center gap-2 bg-[#29ABE2] hover:bg-[#1e8fc2] text-white font-semibold px-6 py-3 rounded-full shadow-lg transition-all hover:-translate-y-0.5 cursor-pointer"><FaPhone /> Call Now</a>
             </div>
           </Reveal>
           <Reveal delay={200} direction="right">
@@ -972,7 +1076,6 @@ function Home() {
         </div>
       </section>
 
-      {/* ✅ ABOUT SECTION — Hero ke turant baad */}
       <AboutSection />
 
       {/* COUNTERS */}
@@ -1048,7 +1151,7 @@ function Home() {
                         </li>
                       ))}
                     </ul>
-                    <Link to="/programs" className="inline-flex items-center gap-2 text-[#F7941E] font-semibold hover:gap-3 transition-all self-start text-sm">Learn More <FaArrowRight /></Link>
+                    <Link to="/programs" className="inline-flex items-center gap-2 text-[#F7941E] font-semibold hover:gap-3 transition-all self-start text-sm cursor-pointer">Learn More <FaArrowRight /></Link>
                   </div>
                 </div>
               </Reveal>
@@ -1087,18 +1190,14 @@ function Home() {
           </div>
           <Reveal>
             <div className="text-center flex flex-wrap gap-4 justify-center">
-              <a href="#contact-section" className="inline-flex items-center gap-2 bg-[#4A3B8C] hover:bg-purple-900 text-white font-bold px-8 py-4 rounded-full shadow-xl hover:-translate-y-1 transition anim-pulse-glow">Apply Now <FaArrowRight /></a>
-              <a href={`tel:${SOCIAL.phone}`} className="inline-flex items-center gap-2 bg-white hover:bg-gray-50 text-[#4A3B8C] font-bold px-8 py-4 rounded-full shadow-xl hover:-translate-y-1 transition"><FaPhone /> Call Us</a>
+              <a href="#contact-section" className="inline-flex items-center gap-2 bg-[#4A3B8C] hover:bg-purple-900 text-white font-bold px-8 py-4 rounded-full shadow-xl hover:-translate-y-1 transition anim-pulse-glow cursor-pointer">Apply Now <FaArrowRight /></a>
+              <a href={`tel:${SOCIAL.phone}`} className="inline-flex items-center gap-2 bg-white hover:bg-gray-50 text-[#4A3B8C] font-bold px-8 py-4 rounded-full shadow-xl hover:-translate-y-1 transition cursor-pointer"><FaPhone /> Call Us</a>
             </div>
           </Reveal>
         </div>
       </section>
 
-      {/* BANNER */}
       <Banner />
-
-      {/* TEACHERS */}
-      <Teachers />
 
       {/* ACTIVITIES */}
       <section className="bg-white py-20">
@@ -1129,19 +1228,10 @@ function Home() {
         </div>
       </section>
 
-      {/* VIDEOS */}
       <VideoSection compact />
-
-      {/* GALLERY */}
       <Gallery limit={8} />
-
-      {/* TESTIMONIALS */}
       <Testimonials />
-
-      {/* BLOG */}
       <BlogSection limit={3} />
-
-      {/* FAQ */}
       <FAQSection />
 
       {/* CONTACT */}
@@ -1173,9 +1263,9 @@ function Home() {
                   </a>
                 ))}
                 <div className="flex gap-4 pt-2">
-                  <a href={SOCIAL.facebook} target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full bg-blue-600 text-white flex items-center justify-center hover:scale-110 hover:rotate-6 transition"><FaFacebookF /></a>
-                  <a href={SOCIAL.instagram} target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full bg-gradient-to-br from-pink-500 to-yellow-400 text-white flex items-center justify-center hover:scale-110 hover:rotate-6 transition"><FaInstagram /></a>
-                  <a href={SOCIAL.youtube} target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full bg-red-600 text-white flex items-center justify-center hover:scale-110 hover:rotate-6 transition"><FaYoutube /></a>
+                  <a href={SOCIAL.facebook} target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full bg-blue-600 text-white flex items-center justify-center hover:scale-110 hover:rotate-6 transition cursor-pointer"><FaFacebookF /></a>
+                  <a href={SOCIAL.instagram} target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full bg-gradient-to-br from-pink-500 to-yellow-400 text-white flex items-center justify-center hover:scale-110 hover:rotate-6 transition cursor-pointer"><FaInstagram /></a>
+                  <a href={SOCIAL.youtube} target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full bg-red-600 text-white flex items-center justify-center hover:scale-110 hover:rotate-6 transition cursor-pointer"><FaYoutube /></a>
                 </div>
               </div>
             </Reveal>
@@ -1184,18 +1274,17 @@ function Home() {
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="bg-[#4A3B8C] text-white py-16 relative overflow-hidden">
+      {/* ✅ CTA — color changed, content reduced */}
+      <section className="bg-gradient-to-r from-[#29ABE2] to-[#39B54A] text-white py-10 relative overflow-hidden">
         <div className="absolute inset-0 opacity-15">
           <div className="absolute top-0 right-10 w-40 h-40 bg-[#FFD93D] rounded-full blur-3xl anim-float"></div>
           <div className="absolute bottom-0 left-10 w-52 h-52 bg-[#F7941E] rounded-full blur-3xl anim-float-slow"></div>
         </div>
         <Reveal className="relative max-w-4xl mx-auto px-6 text-center">
-          <h2 className="text-4xl md:text-5xl font-extrabold mb-4">Ready to Begin the Adventure?</h2>
-          <p className="text-lg text-white/85 mb-8">Visit us and see how we turn every day into an exciting learning adventure!</p>
-          <div className="flex flex-wrap gap-4 justify-center">
-            <a href="#contact-section" className="inline-flex items-center gap-2 bg-[#F7941E] hover:bg-orange-600 text-white font-bold px-8 py-4 rounded-full shadow-xl hover:-translate-y-1 transition text-lg anim-pulse-glow">Book a Visit <FaArrowRight /></a>
-            <a href={`tel:${SOCIAL.phone}`} className="inline-flex items-center gap-2 bg-[#29ABE2] hover:bg-[#1e8fc2] text-white font-bold px-8 py-4 rounded-full shadow-xl hover:-translate-y-1 transition text-lg anim-pulse-glow-blue"><FaPhone /> Call Now</a>
+          <h2 className="text-3xl md:text-4xl font-extrabold text-[#FFD93D] mb-3">Ready to Begin the Adventure?</h2>
+          <div className="flex flex-wrap gap-3 justify-center mt-5">
+            <a href="#contact-section" className="inline-flex items-center gap-2 bg-[#F7941E] hover:bg-orange-600 text-white font-bold px-6 py-3 rounded-full shadow-xl hover:-translate-y-1 transition anim-pulse-glow cursor-pointer">Book a Visit <FaArrowRight /></a>
+            <a href={`tel:${SOCIAL.phone}`} className="inline-flex items-center gap-2 bg-white text-[#4A3B8C] font-bold px-6 py-3 rounded-full shadow-xl hover:-translate-y-1 transition cursor-pointer"><FaPhone /> Call Now</a>
           </div>
         </Reveal>
       </section>
@@ -1221,7 +1310,6 @@ function About() {
         </Reveal>
       </section>
       <Banner />
-      <Teachers />
       <Testimonials />
     </div>
   );
@@ -1276,8 +1364,8 @@ function Admissions() {
             <h2 className="text-3xl md:text-4xl font-extrabold text-[#4A3B8C] mb-4">🎉 Enroll Your Child Today!</h2>
             <p className="text-[#4A3B8C]/90 text-lg max-w-2xl mx-auto mb-6">Where learning sparks curiosity and shapes the future. Limited seats available per class — reserve yours now.</p>
             <div className="flex flex-wrap gap-4 justify-center">
-              <Link to="/contact" className="inline-flex items-center gap-2 bg-[#4A3B8C] hover:bg-purple-900 text-white font-semibold px-6 py-3 rounded-full shadow-lg transition anim-pulse-glow">Apply Now <FaArrowRight /></Link>
-              <a href={`tel:${SOCIAL.phone}`} className="inline-flex items-center gap-2 bg-white hover:bg-gray-50 text-[#4A3B8C] font-semibold px-6 py-3 rounded-full shadow-lg transition"><FaPhone /> Call Now</a>
+              <Link to="/contact" className="inline-flex items-center gap-2 bg-[#4A3B8C] hover:bg-purple-900 text-white font-semibold px-6 py-3 rounded-full shadow-lg transition anim-pulse-glow cursor-pointer">Apply Now <FaArrowRight /></Link>
+              <a href={`tel:${SOCIAL.phone}`} className="inline-flex items-center gap-2 bg-white hover:bg-gray-50 text-[#4A3B8C] font-semibold px-6 py-3 rounded-full shadow-lg transition cursor-pointer"><FaPhone /> Call Now</a>
             </div>
           </div>
         </Reveal>
@@ -1322,7 +1410,7 @@ function VideosPage() {
 function GalleryPage() {
   return (
     <div>
-      <PageHero title="Our Gallery" subtitle="25 moments of joy, laughter and learning." color="from-[#39B54A] to-[#F7941E]" />
+      <PageHero title="Our Gallery" subtitle="26 moments of joy, laughter and learning." color="from-[#39B54A] to-[#F7941E]" />
       <Gallery />
     </div>
   );
@@ -1379,9 +1467,9 @@ function Contact() {
               </a>
             ))}
             <div className="flex gap-4 pt-2">
-              <a href={SOCIAL.facebook} target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full bg-blue-600 text-white flex items-center justify-center hover:scale-110 transition"><FaFacebookF /></a>
-              <a href={SOCIAL.instagram} target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full bg-gradient-to-br from-pink-500 to-yellow-400 text-white flex items-center justify-center hover:scale-110 transition"><FaInstagram /></a>
-              <a href={SOCIAL.youtube} target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full bg-red-600 text-white flex items-center justify-center hover:scale-110 transition"><FaYoutube /></a>
+              <a href={SOCIAL.facebook} target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full bg-blue-600 text-white flex items-center justify-center hover:scale-110 transition cursor-pointer"><FaFacebookF /></a>
+              <a href={SOCIAL.instagram} target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full bg-gradient-to-br from-pink-500 to-yellow-400 text-white flex items-center justify-center hover:scale-110 transition cursor-pointer"><FaInstagram /></a>
+              <a href={SOCIAL.youtube} target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full bg-red-600 text-white flex items-center justify-center hover:scale-110 transition cursor-pointer"><FaYoutube /></a>
             </div>
           </div>
         </Reveal>
@@ -1409,12 +1497,13 @@ export default function App() {
           <Route path="/videos" element={<VideosPage />} />
           <Route path="/gallery" element={<GalleryPage />} />
           <Route path="/blog" element={<BlogPage />} />
+          <Route path="/blog/:id" element={<BlogDetail />} />
           <Route path="/faq" element={<FAQPage />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="*" element={
             <div className="py-32 text-center">
               <h1 className="text-6xl font-extrabold text-[#4A3B8C] mb-4">404</h1>
-              <Link to="/" className="inline-flex items-center gap-2 bg-[#F7941E] text-white font-semibold px-6 py-3 rounded-full">Go Home</Link>
+              <Link to="/" className="inline-flex items-center gap-2 bg-[#F7941E] text-white font-semibold px-6 py-3 rounded-full cursor-pointer">Go Home</Link>
             </div>
           } />
         </Routes>
