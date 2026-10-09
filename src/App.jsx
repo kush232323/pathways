@@ -19,7 +19,7 @@ import g3 from "./assets/gallery/3.jpeg";
 import g4 from "./assets/gallery/4.jpeg";
 import g5 from "./assets/gallery/5.jpeg";
 import g6 from "./assets/gallery/6.jpeg";
-import g7 from "./assets/gallery/7.jpeg";
+import g7 from "./assets/gallery/7.jpg";
 import g8 from "./assets/gallery/8.jpeg";
 import g9 from "./assets/gallery/9.jpeg";
 import g10 from "./assets/gallery/10.jpeg";
@@ -32,13 +32,13 @@ import g16 from "./assets/gallery/16.jpeg";
 import g17 from "./assets/gallery/17.jpeg";
 import g18 from "./assets/gallery/18.jpeg";
 import g19 from "./assets/gallery/19.jpeg";
-import g20 from "./assets/gallery/20.jpeg";
+import g20 from "./assets/gallery/20.jpg";
 import g21 from "./assets/gallery/21.jpeg";
 import g22 from "./assets/gallery/22.jpeg";
 import g23 from "./assets/gallery/23.jpeg";
 import g24 from "./assets/gallery/24.jpeg";
 import g25 from "./assets/gallery/25.jpeg";
-import g26 from "./assets/gallery/26.jpeg";
+import g26 from "./assets/gallery/26.jpg";
 
 const GALLERY_LOCAL = [
   g1, g2, g3, g4, g5, g6, g7, g8, g9, g10,
@@ -47,17 +47,17 @@ const GALLERY_LOCAL = [
 ];
 
 /* ============================================================
-   🔗 CONFIG
+   🔗 CONFIG — Real details from Google Business Profile
    ============================================================ */
 const SOCIAL = {
   facebook: "https://www.facebook.com/profile.php?id=61567749717856",
   instagram: "https://www.instagram.com/pathwayspreschool/",
   youtube: "https://www.youtube.com/@pathwayspreschool",
-  whatsapp: "919999999999",
-  phone: "+919999999999",
-  phoneDisplay: "+91 99999 99999",
+  whatsapp: "919945088254",
+  phone: "+919945088254",
+  phoneDisplay: "099450 88254",
   email: "info@pathwayspreschool.com",
-  address: "Pathways Preschool & Daycare, Your City, India",
+  address: "536/44, 3rd A Main Road, 27th Cross Rd, Raghavendra Layout, Krishna Layout, Hulimavu, Bengaluru, Karnataka 560076",
 };
 
 const IMG = {
@@ -79,26 +79,30 @@ const VIDEOS = [
 ];
 
 /* ============================================================
-   📚 PROGRAMS DATA
+   📚 PROGRAMS DATA — NEP Age Criteria + New Images
+   Playgroup = 7.jpeg (index 6)
+   Nursery   = 20.jpeg (index 19)
+   Junior KG = 24.jpeg (index 23)
+   Senior KG = 26.jpeg (index 25)
    ============================================================ */
 const PROGRAMS_DATA = [
   {
-    age: "1.5 – 2.5 years", name: "Playgroup", tagline: "Nurturing Curiosity & Social Skills",
-    img: GALLERY_LOCAL[21], color: "bg-[#4A3B8C]",
+    age: "2 – 3 years", name: "Playgroup", tagline: "Nurturing Curiosity & Social Skills",
+    img: GALLERY_LOCAL[6], color: "bg-[#4A3B8C]",
     points: ["Social interaction and sharing", "Sensory play and motor skill development", "Early language and communication skills", "Emotional development and independence"],
   },
   {
-    age: "2.5 – 3.5 years", name: "Nursery", tagline: "Building Foundations for Learning",
-    img: GALLERY_LOCAL[22], color: "bg-[#29ABE2]",
+    age: "3 – 4 years", name: "Nursery", tagline: "Building Foundations for Learning",
+    img: GALLERY_LOCAL[19], color: "bg-[#29ABE2]",
     points: ["Introduction to early literacy and numeracy", "Fine and gross motor skills enhancement", "Social interaction and group play", "Creative expression through arts and crafts"],
   },
   {
-    age: "3.5 – 4.5 years", name: "Junior KG", tagline: "Laying Groundwork for Structured Learning",
+    age: "4 – 5 years", name: "Junior KG (LKG)", tagline: "Laying Groundwork for Structured Learning",
     img: GALLERY_LOCAL[23], color: "bg-[#F7941E]",
     points: ["Early literacy: letters, phonics, basic reading", "Numeracy: counting, sorting, patterns", "Storytelling, drawing, and role-play", "Teamwork and problem-solving"],
   },
   {
-    age: "4.5 – 5.5 years", name: "Senior KG", tagline: "Ready for the Next Big Step",
+    age: "5 – 6 years", name: "Senior KG (UKG)", tagline: "Ready for the Next Big Step",
     img: GALLERY_LOCAL[25], color: "bg-[#39B54A]",
     points: ["Reading & writing readiness", "Basic addition, subtraction, problem-solving", "Science explorations and creative thinking", "Cooperation, leadership, responsibility"],
   },
@@ -328,13 +332,13 @@ function ScrollToTop() {
 }
 
 /* ============================================================
-   🟠 MARQUEE
+   🟠 MARQUEE — updated with 2026-27
    ============================================================ */
 function WelcomeMarquee() {
   const items = [
-    "🎉 Admissions Open 2025-26",
+    "🎉 Admissions Open 2026-27",
     "🎨 Play-Based Learning",
-    "🌈 Playgroup | Nursery | Junior KG | Senior KG",
+    "🌈 Playgroup | Nursery | LKG | UKG",
     "📞 Enroll Today — Limited Seats!",
     "⭐ Learners Today, Leaders Tomorrow",
     "🏫 Now Enrolling for Daycare",
@@ -445,7 +449,7 @@ function Navbar() {
    📞 CALL + 💬 WHATSAPP FLOATING
    ============================================================ */
 function FloatingButtons() {
-  const waMsg = encodeURIComponent("Hi Pathways Preschool! I'd like to know more about admissions.");
+  const waMsg = encodeURIComponent("Hi Pathways Preschool! I'd like to know more about admissions for 2026-27.");
   return (
     <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3 items-end">
       <a href={`tel:${SOCIAL.phone}`} aria-label="Call Now"
@@ -498,17 +502,18 @@ function Footer() {
         <div>
           <h4 className="font-bold text-xl mb-4 text-[#FFD93D]">Our Programs</h4>
           <ul className="space-y-2 text-white/85 text-sm">
-            <li>Playgroup (1.5 – 2.5 yrs)</li>
-            <li>Nursery (2.5 – 3.5 yrs)</li>
-            <li>Junior KG (3.5 – 4.5 yrs)</li>
-            <li>Senior KG (4.5 – 5.5 yrs)</li>
+            <li>Playgroup (2 – 3 yrs)</li>
+            <li>Nursery (3 – 4 yrs)</li>
+            <li>LKG (4 – 5 yrs)</li>
+            <li>UKG (5 – 6 yrs)</li>
+            <li>Grade 1 (6+ yrs)</li>
             <li>Daycare</li>
           </ul>
         </div>
         <div>
           <h4 className="font-bold text-xl mb-4 text-[#FFD93D]">Reach Us</h4>
           <ul className="space-y-3 text-white/85 text-sm">
-            <li className="flex gap-3"><FaMapMarkerAlt className="mt-1 text-[#FFD93D]" /><span>{SOCIAL.address}</span></li>
+            <li className="flex gap-3"><FaMapMarkerAlt className="mt-1 text-[#FFD93D] shrink-0" /><span>{SOCIAL.address}</span></li>
             <li className="flex gap-3"><FaPhoneAlt className="mt-1 text-[#FFD93D]" /><a href={`tel:${SOCIAL.phone}`} className="cursor-pointer">{SOCIAL.phoneDisplay}</a></li>
             <li className="flex gap-3"><FaEnvelope className="mt-1 text-[#FFD93D]" /><a href={`mailto:${SOCIAL.email}`} className="cursor-pointer">{SOCIAL.email}</a></li>
           </ul>
@@ -600,7 +605,7 @@ function AboutSection() {
                   <FaAward />
                 </div>
                 <div>
-                  <p className="text-2xl font-extrabold text-[#4A3B8C]">2+</p>
+                  <p className="text-2xl font-extrabold text-[#4A3B8C]">12+</p>
                   <p className="text-xs text-gray-600 font-semibold leading-tight">Years of Excellence</p>
                 </div>
               </div>
@@ -615,7 +620,7 @@ function AboutSection() {
               </span>
             </h3>
             <p className="text-gray-700 leading-relaxed mb-5">
-              <strong>Pathways Preschool & Daycare</strong> was founded with the vision of a warm, welcoming, and enriching environment where young minds can thrive. We are dedicated to fostering the intellectual, emotional, and social development of children aged 1.5 to 5.5 years.
+              <strong>Pathways Preschool & Daycare</strong> was founded with the vision of a warm, welcoming, and enriching environment where young minds can thrive. We are dedicated to fostering the intellectual, emotional, and social development of children aged 2 to 6 years, as per the NEP 2020 guidelines.
             </p>
             <p className="text-gray-700 leading-relaxed mb-6">
               With a team of passionate, experienced educators, we create a safe and supportive space that feels like a second home — where learning happens through play, curiosity, and love.
@@ -626,7 +631,7 @@ function AboutSection() {
                 { icon: <FaHeart />, color: "bg-[#E63946]", text: "Nurturing Environment" },
                 { icon: <FaChalkboardTeacher />, color: "bg-[#4A3B8C]", text: "Expert Educators" },
                 { icon: <FaChild />, color: "bg-[#F7941E]", text: "Play-Based Learning" },
-                { icon: <FaCheckCircle />, color: "bg-[#39B54A]", text: "Holistic Development" },
+                { icon: <FaCheckCircle />, color: "bg-[#39B54A]", text: "NEP-Aligned Curriculum" },
               ].map((h, i) => (
                 <div key={i} className="flex items-center gap-3">
                   <div className={`${h.color} text-white w-9 h-9 rounded-xl flex items-center justify-center shrink-0 shadow`}>
@@ -683,7 +688,7 @@ function ContactForm() {
         <label className="block text-sm font-semibold text-[#4A3B8C] mb-1">Program Interested In</label>
         <select value={form.program} onChange={(e) => setForm({ ...form, program: e.target.value })}
           className="w-full px-4 py-3 rounded-2xl border-2 border-gray-200 focus:border-[#F7941E] outline-none transition cursor-pointer">
-          {["Playgroup", "Nursery", "Junior KG", "Senior KG", "Daycare"].map((p) => <option key={p}>{p}</option>)}
+          {["Playgroup (2-3 yrs)", "Nursery (3-4 yrs)", "Junior KG / LKG (4-5 yrs)", "Senior KG / UKG (5-6 yrs)", "Grade 1 (6+ yrs)", "Daycare"].map((p) => <option key={p}>{p}</option>)}
         </select>
       </div>
       <div>
@@ -700,12 +705,12 @@ function ContactForm() {
 }
 
 /* ============================================================
-   ❓ FAQ SECTION
+   ❓ FAQ SECTION — updated with NEP age criteria
    ============================================================ */
 function FAQSection() {
   const faqs = [
-    { q: "What is the age criteria for admission?", a: "We accept children from 1.5 years to 5.5 years across Playgroup, Nursery, Junior KG, and Senior KG. Daycare is available for working parents." },
-    { q: "What is your teaching approach?", a: "We follow an activity-based, play-centered learning philosophy. Children learn by doing — through hands-on activities, exploration, and guided play." },
+    { q: "What is the age criteria for admission?", a: "As per NEP 2020 guidelines: Playgroup 2+ years, Nursery 3+ years, Junior KG (LKG) 4+ years, Senior KG (UKG) 5+ years, and Grade 1 requires 6+ years. Daycare is available for working parents." },
+    { q: "What is your teaching approach?", a: "We follow an activity-based, play-centered learning philosophy aligned with NEP 2020. Children learn by doing — through hands-on activities, exploration, and guided play." },
     { q: "What are the school timings?", a: "Preschool: 9:00 AM – 12:30 PM. Daycare: 8:00 AM – 6:00 PM. Flexible options available." },
     { q: "How do you ensure my child's safety?", a: "CCTV surveillance, secure entry, trained staff, and strict hygiene protocols ensure a completely safe environment for every child." },
     { q: "What documents are required for admission?", a: "Birth certificate, vaccination record, Aadhaar copy, and 4 passport-size photographs of the child." },
@@ -1053,7 +1058,7 @@ function Home() {
         </div>
         <div className="relative max-w-7xl mx-auto px-6 py-16 md:py-24 grid md:grid-cols-2 gap-12 items-center">
           <Reveal direction="left">
-            <span className="inline-block bg-[#FFD93D] text-[#4A3B8C] font-bold px-4 py-1.5 rounded-full text-sm mb-5 shadow-lg anim-pulse-glow">🎉 Admissions Open 2025–26</span>
+            <span className="inline-block bg-[#FFD93D] text-[#4A3B8C] font-bold px-4 py-1.5 rounded-full text-sm mb-5 shadow-lg anim-pulse-glow">🎉 Admissions Open 2026–27</span>
             <h1 className="text-4xl md:text-6xl font-extrabold leading-tight mb-6">
               Start Your Child's <br /><span className="text-[#FFD93D]">Learning Journey</span> <br />Through Play-Based Education
             </h1>
@@ -1083,7 +1088,7 @@ function Home() {
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8">
           {[
             { icon: <FaSmile />, end: 350, suffix: "+", label: "Happy Kids", color: "text-[#F7941E]" },
-            { icon: <FaCalendarAlt />, end: 2, suffix: "+", label: "Years Experience", color: "text-[#4A3B8C]" },
+            { icon: <FaCalendarAlt />, end: 12, suffix: "+", label: "Years Experience", color: "text-[#4A3B8C]" },
             { icon: <FaUsers />, end: 25, suffix: "+", label: "Expert Teachers", color: "text-[#29ABE2]" },
             { icon: <FaAward />, end: 4, suffix: "", label: "Programs", color: "text-[#39B54A]" },
           ].map((c, i) => (
@@ -1129,7 +1134,7 @@ function Home() {
             <div className="text-center mb-14">
               <span className="inline-block bg-[#4A3B8C]/10 text-[#4A3B8C] font-semibold px-4 py-1.5 rounded-full text-sm mb-4">📚 Our Programs</span>
               <h2 className="text-4xl md:text-5xl font-extrabold text-[#4A3B8C] mb-4">Programs For Every Little Learner</h2>
-              <p className="text-gray-600 max-w-2xl mx-auto">Four thoughtfully designed stages — from tiny toddlers to school-ready superstars.</p>
+              <p className="text-gray-600 max-w-2xl mx-auto">NEP 2020 aligned age criteria — from tiny toddlers to school-ready superstars.</p>
             </div>
           </Reveal>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -1167,9 +1172,9 @@ function Home() {
         <div className="relative max-w-7xl mx-auto px-6">
           <Reveal>
             <div className="text-center mb-14">
-              <span className="inline-block bg-[#4A3B8C] text-white font-bold px-4 py-1.5 rounded-full text-sm mb-4 shadow-lg anim-pulse-glow">🎓 Admissions Open 2025–26</span>
+              <span className="inline-block bg-[#4A3B8C] text-white font-bold px-4 py-1.5 rounded-full text-sm mb-4 shadow-lg anim-pulse-glow">🎓 Admissions Open 2026–27</span>
               <h2 className="text-4xl md:text-5xl font-extrabold text-[#4A3B8C] mb-4">Enroll Your Child Today!</h2>
-              <p className="text-[#4A3B8C]/90 text-lg max-w-3xl mx-auto">Enroll your child into the world of endless possibilities and imagination where learning sparks curiosity and shapes the future. Limited seats per class — reserve yours now.</p>
+              <p className="text-[#4A3B8C]/90 text-lg max-w-3xl mx-auto">Admissions open for 2026-27 across Playgroup, Nursery, LKG, UKG and Grade 1. Limited seats per class — reserve yours now.</p>
             </div>
           </Reveal>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
@@ -1274,7 +1279,7 @@ function Home() {
         </div>
       </section>
 
-      {/* ✅ CTA — color changed, content reduced */}
+      {/* CTA */}
       <section className="bg-gradient-to-r from-[#29ABE2] to-[#39B54A] text-white py-10 relative overflow-hidden">
         <div className="absolute inset-0 opacity-15">
           <div className="absolute top-0 right-10 w-40 h-40 bg-[#FFD93D] rounded-full blur-3xl anim-float"></div>
@@ -1305,7 +1310,7 @@ function About() {
         </Reveal>
         <Reveal delay={150} direction="right">
           <h2 className="text-4xl font-extrabold text-[#4A3B8C] mb-5">Who We Are</h2>
-          <p className="text-gray-700 leading-relaxed mb-5"><strong>Pathways Preschool & Daycare</strong> was founded with the vision of a warm, welcoming, and enriching environment where young minds can thrive. We are dedicated to fostering the intellectual, emotional, and social development of children aged 1.5 to 5.5 years.</p>
+          <p className="text-gray-700 leading-relaxed mb-5"><strong>Pathways Preschool & Daycare</strong> was founded with the vision of a warm, welcoming, and enriching environment where young minds can thrive. We are dedicated to fostering the intellectual, emotional, and social development of children aged 2 to 6 years, aligned with NEP 2020 guidelines.</p>
           <p className="text-gray-700 leading-relaxed">With a team of passionate, experienced educators, we strive to create a safe and supportive space that feels like a second home.</p>
         </Reveal>
       </section>
@@ -1321,7 +1326,7 @@ function About() {
 function Programs() {
   return (
     <div>
-      <PageHero title="Our Programs" subtitle="Four thoughtfully designed stages for every little learner." color="from-[#F7941E] to-[#E63946]" />
+      <PageHero title="Our Programs" subtitle="NEP-aligned stages for every little learner." color="from-[#F7941E] to-[#E63946]" />
       <section className="max-w-7xl mx-auto px-6 py-16 space-y-16">
         {PROGRAMS_DATA.map((p, i) => (
           <Reveal key={i} delay={100} direction={i % 2 === 0 ? "left" : "right"}>
@@ -1352,23 +1357,47 @@ function Programs() {
 }
 
 /* ============================================================
-   🎓 ADMISSIONS
+   🎓 ADMISSIONS — updated with NEP age criteria
    ============================================================ */
 function Admissions() {
   return (
     <div>
-      <PageHero title="Admissions Open 2025–26" subtitle="Enroll your child into a world of endless possibilities." color="from-[#39B54A] to-[#29ABE2]" />
+      <PageHero title="Admissions Open 2026–27" subtitle="Enroll your child into a world of endless possibilities." color="from-[#39B54A] to-[#29ABE2]" />
       <section className="max-w-5xl mx-auto px-6 py-16">
         <Reveal direction="zoom">
           <div className="bg-gradient-to-br from-[#FFD93D] to-[#F7941E] rounded-3xl p-10 text-center shadow-2xl mb-12">
             <h2 className="text-3xl md:text-4xl font-extrabold text-[#4A3B8C] mb-4">🎉 Enroll Your Child Today!</h2>
-            <p className="text-[#4A3B8C]/90 text-lg max-w-2xl mx-auto mb-6">Where learning sparks curiosity and shapes the future. Limited seats available per class — reserve yours now.</p>
+            <p className="text-[#4A3B8C]/90 text-lg max-w-2xl mx-auto mb-6">Admissions open for 2026-27. Limited seats available per class — reserve yours now.</p>
             <div className="flex flex-wrap gap-4 justify-center">
               <Link to="/contact" className="inline-flex items-center gap-2 bg-[#4A3B8C] hover:bg-purple-900 text-white font-semibold px-6 py-3 rounded-full shadow-lg transition anim-pulse-glow cursor-pointer">Apply Now <FaArrowRight /></Link>
               <a href={`tel:${SOCIAL.phone}`} className="inline-flex items-center gap-2 bg-white hover:bg-gray-50 text-[#4A3B8C] font-semibold px-6 py-3 rounded-full shadow-lg transition cursor-pointer"><FaPhone /> Call Now</a>
             </div>
           </div>
         </Reveal>
+
+        {/* Age Criteria Table (NEP 2020) */}
+        <Reveal>
+          <h3 className="text-3xl md:text-4xl font-extrabold text-[#4A3B8C] text-center mb-6">Age Criteria (NEP 2020)</h3>
+          <div className="bg-white rounded-3xl shadow-lg overflow-hidden mb-12">
+            <div className="grid grid-cols-2 bg-[#4A3B8C] text-white font-bold text-sm md:text-base">
+              <div className="px-5 py-3">Class</div>
+              <div className="px-5 py-3">Age</div>
+            </div>
+            {[
+              { c: "Playgroup", a: "2+ years" },
+              { c: "Nursery", a: "3+ years" },
+              { c: "Junior KG (LKG)", a: "4+ years" },
+              { c: "Senior KG (UKG)", a: "5+ years" },
+              { c: "Grade 1", a: "6+ years" },
+            ].map((row, i) => (
+              <div key={i} className={`grid grid-cols-2 text-sm md:text-base ${i % 2 === 0 ? "bg-[#FFF8F0]" : "bg-white"}`}>
+                <div className="px-5 py-3 font-semibold text-[#4A3B8C]">{row.c}</div>
+                <div className="px-5 py-3 text-gray-700">{row.a}</div>
+              </div>
+            ))}
+          </div>
+        </Reveal>
+
         <Reveal><h3 className="text-3xl md:text-4xl font-extrabold text-[#4A3B8C] text-center mb-10">Simple 4-Step Process</h3></Reveal>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {[
