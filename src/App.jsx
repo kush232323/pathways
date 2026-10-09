@@ -5,7 +5,8 @@ import {
   FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaChild, FaPalette, FaFlask,
   FaTree, FaMusic, FaHeart, FaStar, FaArrowRight, FaCheckCircle,
   FaSmile, FaUsers, FaAward, FaBookOpen, FaCalendarAlt, FaQuoteLeft,
-  FaPlus, FaMinus, FaCamera, FaPhone,
+  FaPlus, FaMinus, FaCamera, FaPhone, FaVideo, FaPlay,
+  FaChalkboardTeacher, FaUserGraduate, FaSchool, FaHandsHelping,
 } from "react-icons/fa";
 
 /* ✅ LOGO */
@@ -78,7 +79,32 @@ const IMG = {
   teacher4: "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=400&q=80",
 };
 
-const VIDEO_EMBED = "https://www.youtube.com/embed/dQw4w9WgXcQ";
+/* ============================================================
+   🎥 VIMEO VIDEOS
+   ============================================================ */
+const VIDEOS = [
+  {
+    id: "1234439892",
+    title: "A Day at Pathways",
+    desc: "Step inside our vibrant classrooms and see learning come alive.",
+    embed: "https://player.vimeo.com/video/1234439892?title=0&byline=0&portrait=0",
+    color: "from-[#4A3B8C] to-[#29ABE2]",
+  },
+  {
+    id: "1234440179",
+    title: "Learning Through Play",
+    desc: "How hands-on activities spark curiosity and build confidence.",
+    embed: "https://player.vimeo.com/video/1234440179?title=0&byline=0&portrait=0",
+    color: "from-[#F7941E] to-[#E63946]",
+  },
+  {
+    id: "1234440263",
+    title: "Our Happy Families",
+    desc: "Parents share why Pathways feels like a second home.",
+    embed: "https://player.vimeo.com/video/1234440263?title=0&byline=0&portrait=0",
+    color: "from-[#39B54A] to-[#29ABE2]",
+  },
+];
 
 /* ============================================================
    🎬 GLOBAL ANIMATIONS
@@ -127,6 +153,10 @@ function GlobalStyles() {
         40%      { transform: rotate(15deg); }
         50%      { transform: rotate(0deg); }
       }
+      @keyframes playPulse {
+        0%, 100% { transform: scale(1); opacity: 1; }
+        50%      { transform: scale(1.15); opacity: 0.85; }
+      }
 
       .marquee-track {
         display: flex;
@@ -145,6 +175,7 @@ function GlobalStyles() {
       .anim-pulse-glow-green { animation: pulseGlowGreen 2.2s ease-out infinite; }
       .anim-pulse-glow-blue  { animation: pulseGlowBlue 2.2s ease-out infinite; }
       .anim-ring       { animation: ring 2s ease-in-out infinite; }
+      .anim-play-pulse { animation: playPulse 2s ease-in-out infinite; }
     `}</style>
   );
 }
@@ -269,6 +300,7 @@ function Navbar() {
     { to: "/about", label: "About" },
     { to: "/programs", label: "Programs" },
     { to: "/admissions", label: "Admissions" },
+    { to: "/videos", label: "Videos" },
     { to: "/gallery", label: "Gallery" },
     { to: "/blog", label: "Blog" },
     { to: "/faq", label: "FAQ" },
@@ -286,18 +318,18 @@ function Navbar() {
             <p className="text-[9px] tracking-widest text-[#F7941E] font-semibold">PRESCHOOL & DAYCARE</p>
           </div>
         </Link>
-        <nav className="hidden lg:flex items-center gap-1">
+        <nav className="hidden lg:flex items-center gap-0.5">
           {links.map((l) => (
             <NavLink key={l.to} to={l.to}
               className={({ isActive }) =>
-                `px-3 py-2 rounded-full font-semibold transition text-sm ${
+                `px-2.5 py-2 rounded-full font-semibold transition text-xs xl:text-sm ${
                   isActive ? "bg-[#4A3B8C] text-white shadow" : "text-[#4A3B8C] hover:bg-[#4A3B8C]/10"
                 }`}>
               {l.label}
             </NavLink>
           ))}
           <Link to="/admissions"
-            className="ml-1 inline-flex items-center gap-1.5 bg-[#F7941E] hover:bg-orange-600 text-white font-semibold px-4 py-2 rounded-full shadow-lg hover:shadow-xl transition text-sm anim-pulse-glow">
+            className="ml-1 inline-flex items-center gap-1.5 bg-[#F7941E] hover:bg-orange-600 text-white font-semibold px-3 py-2 rounded-full shadow-lg hover:shadow-xl transition text-xs xl:text-sm anim-pulse-glow">
             Enroll <FaArrowRight size={12} />
           </Link>
         </nav>
@@ -375,6 +407,7 @@ function Footer() {
             <li><Link to="/about" className="hover:text-[#FFD93D]">About Us</Link></li>
             <li><Link to="/programs" className="hover:text-[#FFD93D]">Programs</Link></li>
             <li><Link to="/admissions" className="hover:text-[#FFD93D]">Admissions</Link></li>
+            <li><Link to="/videos" className="hover:text-[#FFD93D]">Videos</Link></li>
             <li><Link to="/gallery" className="hover:text-[#FFD93D]">Gallery</Link></li>
             <li><Link to="/blog" className="hover:text-[#FFD93D]">Blog</Link></li>
             <li><Link to="/faq" className="hover:text-[#FFD93D]">FAQ</Link></li>
@@ -421,6 +454,97 @@ function PageHero({ title, subtitle, color }) {
         <h1 className="text-4xl md:text-6xl font-extrabold mb-3">{title}</h1>
         <p className="text-lg md:text-xl text-white/90">{subtitle}</p>
       </Reveal>
+    </section>
+  );
+}
+
+/* ============================================================
+   🎯 BANNER COMPONENT (reusable — Home + About)
+   ============================================================ */
+function Banner() {
+  return (
+    <section className="relative py-24 overflow-hidden">
+      <img src={GALLERY_LOCAL[4]} alt="Banner" className="absolute inset-0 w-full h-full object-cover" />
+      <div className="absolute inset-0 bg-gradient-to-r from-[#4A3B8C]/90 to-[#29ABE2]/70"></div>
+      <Reveal className="relative max-w-4xl mx-auto px-6 text-center text-white">
+        <h2 className="text-3xl md:text-5xl font-extrabold mb-4">Where Curiosity Meets Creativity</h2>
+        <p className="text-lg text-white/90 mb-8">A happy, safe and stimulating environment where every child's potential is nurtured with love and care.</p>
+        <div className="flex flex-wrap gap-4 justify-center">
+          <Link to="/programs" className="inline-flex items-center gap-2 bg-[#FFD93D] text-[#4A3B8C] font-bold px-8 py-3.5 rounded-full shadow-xl hover:scale-105 transition">
+            Explore Programs <FaArrowRight />
+          </Link>
+          <a href={`tel:${SOCIAL.phone}`} className="inline-flex items-center gap-2 bg-white/15 backdrop-blur border-2 border-white text-white hover:bg-white hover:text-[#4A3B8C] font-bold px-8 py-3.5 rounded-full shadow-xl transition">
+            <FaPhone /> Call Us
+          </a>
+        </div>
+      </Reveal>
+    </section>
+  );
+}
+
+/* ============================================================
+   👩‍🏫 TEACHERS — NEW "OUR FUN ACTIVITIES" STYLE
+   ============================================================ */
+function Teachers() {
+  const team = [
+    { name: "Ms. Kavita Rao", role: "Principal", exp: "15+ years", img: IMG.teacher1, color: "from-[#4A3B8C] to-[#6C5CE7]", badge: "bg-[#4A3B8C]", icon: <FaSchool /> },
+    { name: "Ms. Anjali Mehta", role: "Head of Nursery", exp: "10+ years", img: IMG.teacher2, color: "from-[#F7941E] to-[#FFD93D]", badge: "bg-[#F7941E]", icon: <FaChalkboardTeacher /> },
+    { name: "Ms. Riya Kapoor", role: "Playgroup Lead", exp: "8+ years", img: IMG.teacher3, color: "from-[#39B54A] to-lime-400", badge: "bg-[#39B54A]", icon: <FaChild /> },
+    { name: "Ms. Neha Singh", role: "Junior KG Lead", exp: "9+ years", img: IMG.teacher4, color: "from-[#E63946] to-pink-400", badge: "bg-[#E63946]", icon: <FaUserGraduate /> },
+  ];
+
+  return (
+    <section className="bg-white py-20">
+      <div className="max-w-7xl mx-auto px-6">
+        <Reveal>
+          <div className="text-center mb-12">
+            <span className="inline-flex items-center gap-2 bg-[#4A3B8C]/10 text-[#4A3B8C] font-semibold px-4 py-1.5 rounded-full text-sm mb-4">
+              <FaChalkboardTeacher /> Meet Our Team
+            </span>
+            <h2 className="text-4xl md:text-5xl font-extrabold text-[#4A3B8C] mb-4">Caring Educators</h2>
+            <p className="text-center text-gray-600 max-w-2xl mx-auto">
+              Passionate, qualified and warm — the heart of Pathways. Every teacher is handpicked for their love of little learners.
+            </p>
+          </div>
+        </Reveal>
+
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {team.map((t, i) => (
+            <Reveal key={i} delay={i * 120} direction="zoom">
+              <div className={`bg-gradient-to-br ${t.color} text-white rounded-3xl p-6 shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all h-full group relative overflow-hidden`}>
+                {/* Decorative icon background */}
+                <div className="absolute -top-4 -right-4 text-7xl opacity-10 group-hover:opacity-20 transition-opacity">
+                  {t.icon}
+                </div>
+
+                {/* Avatar */}
+                <div className="relative mb-5 flex justify-center">
+                  <img
+                    src={t.img}
+                    alt={t.name}
+                    className="w-28 h-28 rounded-full object-cover border-4 border-white/40 shadow-2xl group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300"
+                  />
+                  <span className={`absolute bottom-0 right-1/2 translate-x-12 ${t.badge} text-white text-[10px] font-bold px-2.5 py-1 rounded-full shadow-lg border-2 border-white`}>
+                    {t.exp}
+                  </span>
+                </div>
+
+                {/* Icon */}
+                <div className="text-3xl mb-3 group-hover:scale-125 group-hover:rotate-6 transition-transform inline-block">
+                  {t.icon}
+                </div>
+
+                <h3 className="font-bold text-xl mb-1 relative">{t.name}</h3>
+                <p className="text-sm text-white/90 font-medium mb-4 relative">{t.role}</p>
+
+                <div className="flex items-center gap-2 text-xs bg-white/15 backdrop-blur rounded-full px-3 py-1.5 w-fit">
+                  <FaStar className="text-[#FFD93D]" /> Expert Educator
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </div>
     </section>
   );
 }
@@ -570,13 +694,85 @@ function Testimonials() {
 }
 
 /* ============================================================
-   📸 GALLERY — 25 LOCAL IMAGES + LIGHTBOX
+   🎥 VIDEO SECTION
+   ============================================================ */
+function VideoSection({ compact = false }) {
+  const list = compact ? VIDEOS.slice(0, 3) : VIDEOS;
+  return (
+    <section className="py-20 bg-white" id="videos">
+      <div className="max-w-7xl mx-auto px-6">
+        <Reveal>
+          <div className="text-center mb-12">
+            <span className="inline-flex items-center gap-2 bg-[#E63946]/10 text-[#E63946] font-semibold px-4 py-1.5 rounded-full text-sm mb-4">
+              <FaVideo /> Our Videos
+            </span>
+            <h2 className="text-4xl md:text-5xl font-extrabold text-[#4A3B8C] mb-4">Watch Pathways in Action</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              Real moments from our classrooms — learning, laughter and lots of love.
+            </p>
+          </div>
+        </Reveal>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {list.map((v, i) => (
+            <Reveal key={v.id} delay={i * 150} direction="zoom">
+              <div className="bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden hover:-translate-y-2 h-full flex flex-col group">
+                <div className="relative aspect-video overflow-hidden bg-black">
+                  <iframe
+                    src={v.embed}
+                    title={v.title}
+                    className="absolute inset-0 w-full h-full"
+                    frameBorder="0"
+                    allow="autoplay; fullscreen; picture-in-picture"
+                    allowFullScreen
+                  ></iframe>
+                </div>
+                <div className="p-6 flex flex-col flex-1">
+                  <div className={`inline-flex items-center gap-2 ${v.color} bg-gradient-to-r text-white text-xs font-bold px-3 py-1.5 rounded-full self-start mb-3`}>
+                    <FaPlay size={10} /> Video {i + 1}
+                  </div>
+                  <h3 className="font-bold text-xl text-[#4A3B8C] mb-2 leading-snug">
+                    {v.title}
+                  </h3>
+                  <p className="text-gray-600 text-sm flex-1">{v.desc}</p>
+                  <a
+                    href={`https://vimeo.com/${v.id}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-[#F7941E] font-semibold hover:gap-3 transition-all self-start mt-4"
+                  >
+                    Watch on Vimeo <FaArrowRight />
+                  </a>
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+
+        {compact && (
+          <Reveal delay={300}>
+            <div className="text-center mt-12">
+              <Link
+                to="/videos"
+                className="inline-flex items-center gap-2 bg-[#4A3B8C] hover:bg-purple-900 text-white font-bold px-8 py-3.5 rounded-full shadow-xl hover:-translate-y-1 transition"
+              >
+                View All Videos <FaVideo />
+              </Link>
+            </div>
+          </Reveal>
+        )}
+      </div>
+    </section>
+  );
+}
+
+/* ============================================================
+   📸 GALLERY
    ============================================================ */
 function Gallery({ limit }) {
   const pics = limit ? GALLERY_LOCAL.slice(0, limit) : GALLERY_LOCAL;
   const [lightbox, setLightbox] = useState(null);
 
-  // keyboard support
   useEffect(() => {
     if (lightbox === null) return;
     const onKey = (e) => {
@@ -602,10 +798,8 @@ function Gallery({ limit }) {
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {pics.map((p, i) => (
             <Reveal key={i} delay={(i % 8) * 80} direction="zoom">
-              <div
-                onClick={() => setLightbox(i)}
-                className="relative overflow-hidden rounded-3xl shadow-lg hover:shadow-2xl transition-all cursor-pointer group aspect-square"
-              >
+              <div onClick={() => setLightbox(i)}
+                className="relative overflow-hidden rounded-3xl shadow-lg hover:shadow-2xl transition-all cursor-pointer group aspect-square">
                 <img src={p} alt={`Gallery ${i + 1}`} loading="lazy"
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#4A3B8C]/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center p-4">
@@ -617,83 +811,22 @@ function Gallery({ limit }) {
         </div>
       </div>
 
-      {/* LIGHTBOX */}
       {lightbox !== null && (
-        <div
-          className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center p-4"
-          onClick={() => setLightbox(null)}
-        >
-          <button
-            className="absolute top-5 right-5 text-white text-3xl w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition"
-            onClick={() => setLightbox(null)}
-            aria-label="Close"
-          ><FaTimes /></button>
-
-          <button
-            className="absolute left-4 md:left-8 text-white text-3xl w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition"
-            onClick={(e) => { e.stopPropagation(); setLightbox((i) => (i - 1 + pics.length) % pics.length); }}
-            aria-label="Previous"
-          >‹</button>
-
-          <img
-            src={pics[lightbox]}
-            alt={`Gallery ${lightbox + 1}`}
+        <div className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center p-4" onClick={() => setLightbox(null)}>
+          <button className="absolute top-5 right-5 text-white text-3xl w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition"
+            onClick={() => setLightbox(null)} aria-label="Close"><FaTimes /></button>
+          <button className="absolute left-4 md:left-8 text-white text-3xl w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition"
+            onClick={(e) => { e.stopPropagation(); setLightbox((i) => (i - 1 + pics.length) % pics.length); }} aria-label="Previous">‹</button>
+          <img src={pics[lightbox]} alt={`Gallery ${lightbox + 1}`}
             className="max-h-[85vh] max-w-[90vw] object-contain rounded-2xl shadow-2xl"
-            onClick={(e) => e.stopPropagation()}
-          />
-
-          <button
-            className="absolute right-4 md:right-8 text-white text-3xl w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition"
-            onClick={(e) => { e.stopPropagation(); setLightbox((i) => (i + 1) % pics.length); }}
-            aria-label="Next"
-          >›</button>
-
+            onClick={(e) => e.stopPropagation()} />
+          <button className="absolute right-4 md:right-8 text-white text-3xl w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition"
+            onClick={(e) => { e.stopPropagation(); setLightbox((i) => (i + 1) % pics.length); }} aria-label="Next">›</button>
           <div className="absolute bottom-5 left-1/2 -translate-x-1/2 bg-white/10 text-white text-sm font-semibold px-4 py-2 rounded-full">
             {lightbox + 1} / {pics.length}
           </div>
         </div>
       )}
-    </section>
-  );
-}
-
-/* ============================================================
-   👩‍🏫 TEACHERS
-   ============================================================ */
-function Teachers() {
-  const team = [
-    { name: "Ms. Kavita Rao", role: "Principal", img: IMG.teacher1, color: "from-[#4A3B8C] to-[#29ABE2]" },
-    { name: "Ms. Anjali Mehta", role: "Head of Nursery", img: IMG.teacher2, color: "from-[#F7941E] to-[#FFD93D]" },
-    { name: "Ms. Riya Kapoor", role: "Playgroup Lead", img: IMG.teacher3, color: "from-[#39B54A] to-lime-400" },
-    { name: "Ms. Neha Singh", role: "Junior KG Lead", img: IMG.teacher4, color: "from-[#E63946] to-pink-400" },
-  ];
-  return (
-    <section className="py-20 bg-gradient-to-br from-[#4A3B8C] to-[#29ABE2] text-white relative overflow-hidden">
-      <div className="absolute top-10 left-10 w-40 h-40 bg-white/10 rounded-full blur-3xl anim-float"></div>
-      <div className="absolute bottom-10 right-10 w-52 h-52 bg-[#FFD93D]/20 rounded-full blur-3xl anim-float-slow"></div>
-      <div className="max-w-7xl mx-auto px-6 relative">
-        <Reveal>
-          <div className="text-center mb-12">
-            <span className="inline-block bg-white/15 text-white font-semibold px-4 py-1.5 rounded-full text-sm mb-4">👩‍🏫 Meet Our Team</span>
-            <h2 className="text-4xl md:text-5xl font-extrabold mb-4">Caring Educators</h2>
-            <p className="text-white/85 max-w-2xl mx-auto">Passionate, qualified and warm — the heart of Pathways.</p>
-          </div>
-        </Reveal>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-          {team.map((t, i) => (
-            <Reveal key={i} delay={i * 120} direction="zoom">
-              <div className="bg-white/10 backdrop-blur rounded-3xl p-5 text-center hover:bg-white/20 transition-all hover:-translate-y-2 group">
-                <div className="relative inline-block mb-4">
-                  <img src={t.img} alt={t.name} className="w-28 h-28 rounded-full object-cover border-4 border-white shadow-xl group-hover:scale-105 transition-transform" />
-                  <div className={`absolute inset-0 rounded-full bg-gradient-to-br ${t.color} opacity-0 group-hover:opacity-30 transition-opacity`}></div>
-                </div>
-                <h3 className="font-bold text-lg">{t.name}</h3>
-                <p className="text-sm text-[#FFD93D] font-semibold">{t.role}</p>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-      </div>
     </section>
   );
 }
@@ -903,15 +1036,7 @@ function Home() {
       </section>
 
       {/* BANNER */}
-      <section className="relative py-24 overflow-hidden">
-        <img src={GALLERY_LOCAL[4]} alt="Banner" className="absolute inset-0 w-full h-full object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#4A3B8C]/90 to-[#29ABE2]/70"></div>
-        <Reveal className="relative max-w-4xl mx-auto px-6 text-center text-white">
-          <h2 className="text-3xl md:text-5xl font-extrabold mb-4">Where Curiosity Meets Creativity</h2>
-          <p className="text-lg text-white/90 mb-8">A happy, safe and stimulating environment where every child's potential is nurtured with love and care.</p>
-          <Link to="/programs" className="inline-flex items-center gap-2 bg-[#FFD93D] text-[#4A3B8C] font-bold px-8 py-3.5 rounded-full shadow-xl hover:scale-105 transition">Explore Programs <FaArrowRight /></Link>
-        </Reveal>
-      </section>
+      <Banner />
 
       {/* TEACHERS */}
       <Teachers />
@@ -920,8 +1045,11 @@ function Home() {
       <section className="bg-white py-20">
         <div className="max-w-7xl mx-auto px-6">
           <Reveal>
-            <h2 className="text-4xl md:text-5xl font-extrabold text-[#4A3B8C] text-center mb-4">Our Fun Activities</h2>
-            <p className="text-center text-gray-600 max-w-2xl mx-auto mb-12">A blend of structured learning & free play — designed to spark curiosity.</p>
+            <div className="text-center mb-14">
+              <span className="inline-block bg-[#39B54A]/15 text-[#39B54A] font-semibold px-4 py-1.5 rounded-full text-sm mb-4">🎨 Our Activities</span>
+              <h2 className="text-4xl md:text-5xl font-extrabold text-[#4A3B8C] mb-4">Our Fun Activities</h2>
+              <p className="text-center text-gray-600 max-w-2xl mx-auto">A blend of structured learning & free play — designed to spark curiosity.</p>
+            </div>
           </Reveal>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
@@ -942,27 +1070,16 @@ function Home() {
         </div>
       </section>
 
-      {/* GALLERY — first 8 on home */}
-      <Gallery limit={8} />
+      {/* VIDEOS */}
+      <VideoSection compact />
 
-      {/* VIDEO */}
-      <section className="py-20 max-w-6xl mx-auto px-6">
-        <Reveal>
-          <h2 className="text-4xl md:text-5xl font-extrabold text-[#4A3B8C] text-center mb-4">Peek Into Our World</h2>
-          <p className="text-center text-gray-600 max-w-2xl mx-auto mb-12">Watch how little learners grow, play & discover every day.</p>
-        </Reveal>
-        <Reveal delay={150} direction="zoom">
-          <div className="relative rounded-3xl overflow-hidden shadow-2xl aspect-video">
-            <iframe src={VIDEO_EMBED} title="Pathways Preschool Video" className="absolute inset-0 w-full h-full"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
-          </div>
-        </Reveal>
-      </section>
+      {/* GALLERY (first 8) */}
+      <Gallery limit={8} />
 
       {/* TESTIMONIALS */}
       <Testimonials />
 
-      {/* BLOG (3 on home) */}
+      {/* BLOG (3) */}
       <BlogSection limit={3} />
 
       {/* FAQ */}
@@ -1028,12 +1145,13 @@ function Home() {
 }
 
 /* ============================================================
-   ℹ️ ABOUT
+   ℹ️ ABOUT PAGE — Now with Banner
    ============================================================ */
 function About() {
   return (
     <div>
       <PageHero title="About Us" subtitle="A warm, welcoming space where young minds thrive." color="from-[#4A3B8C] to-[#29ABE2]" />
+
       <section className="max-w-7xl mx-auto px-6 py-20 grid md:grid-cols-2 gap-12 items-center">
         <Reveal direction="left">
           <img src={GALLERY_LOCAL[5]} alt="About Pathways" className="rounded-3xl shadow-2xl w-full h-96 object-cover" />
@@ -1044,6 +1162,10 @@ function About() {
           <p className="text-gray-700 leading-relaxed">With a team of passionate, experienced educators, we strive to create a safe and supportive space that feels like a second home.</p>
         </Reveal>
       </section>
+
+      {/* ✅ BANNER ADDED HERE */}
+      <Banner />
+
       <Teachers />
       <Testimonials />
     </div>
@@ -1128,7 +1250,19 @@ function Admissions() {
 }
 
 /* ============================================================
-   📸 GALLERY PAGE (all 25)
+   🎥 VIDEOS PAGE
+   ============================================================ */
+function VideosPage() {
+  return (
+    <div>
+      <PageHero title="Our Videos" subtitle="Real moments from Pathways — in motion." color="from-[#4A3B8C] to-[#E63946]" />
+      <VideoSection />
+    </div>
+  );
+}
+
+/* ============================================================
+   📸 GALLERY PAGE
    ============================================================ */
 function GalleryPage() {
   return (
@@ -1217,6 +1351,7 @@ export default function App() {
           <Route path="/about" element={<About />} />
           <Route path="/programs" element={<Programs />} />
           <Route path="/admissions" element={<Admissions />} />
+          <Route path="/videos" element={<VideosPage />} />
           <Route path="/gallery" element={<GalleryPage />} />
           <Route path="/blog" element={<BlogPage />} />
           <Route path="/faq" element={<FAQPage />} />
