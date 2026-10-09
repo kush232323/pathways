@@ -6,7 +6,7 @@ import {
   FaTree, FaMusic, FaHeart, FaStar, FaArrowRight, FaCheckCircle,
   FaSmile, FaUsers, FaAward, FaBookOpen, FaCalendarAlt, FaQuoteLeft,
   FaPlus, FaMinus, FaCamera, FaPhone, FaVideo, FaPlay,
-  FaChalkboardTeacher, FaUserGraduate, FaSchool, FaHandsHelping,
+  FaChalkboardTeacher, FaUserGraduate, FaSchool,
 } from "react-icons/fa";
 
 /* ✅ LOGO */
@@ -60,16 +60,10 @@ const SOCIAL = {
 };
 
 const IMG = {
-  cover1: "https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=1200&q=80",
-  cover2: "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=1200&q=80",
-  cover3: "https://images.unsplash.com/photo-1544776193-352d25ca82cd?w=1200&q=80",
-  cover4: "https://images.unsplash.com/photo-1607453998774-d533f65dac99?w=1200&q=80",
-  about: "https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=1200&q=80",
   programPlay: "https://images.unsplash.com/photo-1567057419565-4349c49d8a56?w=800&q=80",
   programNursery: "https://images.unsplash.com/photo-1596464716127-f2a82984de30?w=800&q=80",
   programJunior: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=800&q=80",
   programSenior: "https://images.unsplash.com/photo-1544717297-fa95b6ee9643?w=800&q=80",
-  banner2: "https://images.unsplash.com/photo-1544776193-352d25ca82cd?w=1600&q=80",
   blog1: "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=800&q=80",
   blog2: "https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=800&q=80",
   blog3: "https://images.unsplash.com/photo-1607453998774-d533f65dac99?w=800&q=80",
@@ -153,10 +147,6 @@ function GlobalStyles() {
         40%      { transform: rotate(15deg); }
         50%      { transform: rotate(0deg); }
       }
-      @keyframes playPulse {
-        0%, 100% { transform: scale(1); opacity: 1; }
-        50%      { transform: scale(1.15); opacity: 0.85; }
-      }
 
       .marquee-track {
         display: flex;
@@ -175,7 +165,6 @@ function GlobalStyles() {
       .anim-pulse-glow-green { animation: pulseGlowGreen 2.2s ease-out infinite; }
       .anim-pulse-glow-blue  { animation: pulseGlowBlue 2.2s ease-out infinite; }
       .anim-ring       { animation: ring 2s ease-in-out infinite; }
-      .anim-play-pulse { animation: playPulse 2s ease-in-out infinite; }
     `}</style>
   );
 }
@@ -191,7 +180,7 @@ function useReveal() {
     if (!el) return;
     const obs = new IntersectionObserver(
       ([entry]) => { if (entry.isIntersecting) { setVisible(true); obs.disconnect(); } },
-      { threshold: 0.15 }
+      { threshold: 0.05 }
     );
     obs.observe(el);
     return () => obs.disconnect();
@@ -459,7 +448,7 @@ function PageHero({ title, subtitle, color }) {
 }
 
 /* ============================================================
-   🎯 BANNER COMPONENT (reusable — Home + About)
+   🎯 BANNER
    ============================================================ */
 function Banner() {
   return (
@@ -483,7 +472,93 @@ function Banner() {
 }
 
 /* ============================================================
-   👩‍🏫 TEACHERS — NEW "OUR FUN ACTIVITIES" STYLE
+   ✅ ABOUT SECTION
+   ============================================================ */
+function AboutSection() {
+  return (
+    <section className="py-20 bg-[#FFF8F0] relative overflow-hidden">
+      <div className="absolute -top-10 -left-10 w-72 h-72 bg-[#F7941E]/10 anim-blob"></div>
+      <div className="absolute -bottom-10 -right-10 w-72 h-72 bg-[#39B54A]/10 anim-blob"></div>
+
+      <div className="max-w-7xl mx-auto px-6 relative">
+        <div className="text-center mb-14">
+          <span className="inline-block bg-[#4A3B8C]/10 text-[#4A3B8C] font-semibold px-4 py-1.5 rounded-full text-sm mb-4">
+            🌟 About Us
+          </span>
+          <h2 className="text-4xl md:text-5xl font-extrabold text-[#4A3B8C] mb-4">
+            Welcome to Pathways Preschool & Daycare
+          </h2>
+          <p className="text-gray-600 max-w-2xl mx-auto">
+            A warm, welcoming space where young minds bloom through play, curiosity, and love.
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-12 items-center">
+          <Reveal direction="left">
+            <div className="relative">
+              <img src={GALLERY_LOCAL[6]} alt="About Pathways"
+                className="rounded-3xl shadow-2xl w-full h-96 object-cover" />
+              <div className="absolute -bottom-6 -right-4 md:-right-8 bg-white rounded-3xl shadow-2xl p-5 flex items-center gap-4 max-w-[220px] anim-float">
+                <div className="bg-gradient-to-br from-[#F7941E] to-[#E63946] text-white w-14 h-14 rounded-2xl flex items-center justify-center text-2xl shadow-lg">
+                  <FaAward />
+                </div>
+                <div>
+                  <p className="text-2xl font-extrabold text-[#4A3B8C]">12+</p>
+                  <p className="text-xs text-gray-600 font-semibold leading-tight">Years of Excellence</p>
+                </div>
+              </div>
+            </div>
+          </Reveal>
+
+          <Reveal direction="right" delay={150}>
+            <h3 className="text-3xl md:text-4xl font-extrabold text-[#4A3B8C] mb-5 leading-tight">
+              A Second Home Where <br />
+              <span className="bg-gradient-to-r from-[#F7941E] to-[#E63946] bg-clip-text text-transparent">
+                Little Minds Bloom
+              </span>
+            </h3>
+            <p className="text-gray-700 leading-relaxed mb-5">
+              <strong>Pathways Preschool & Daycare</strong> was founded with the vision of a warm, welcoming, and enriching environment where young minds can thrive. We are dedicated to fostering the intellectual, emotional, and social development of children aged 1.5 to 5.5 years.
+            </p>
+            <p className="text-gray-700 leading-relaxed mb-6">
+              With a team of passionate, experienced educators, we create a safe and supportive space that feels like a second home — where learning happens through play, curiosity, and love.
+            </p>
+
+            <div className="grid sm:grid-cols-2 gap-4 mb-8">
+              {[
+                { icon: <FaHeart />, color: "bg-[#E63946]", text: "Nurturing Environment" },
+                { icon: <FaChalkboardTeacher />, color: "bg-[#4A3B8C]", text: "Expert Educators" },
+                { icon: <FaChild />, color: "bg-[#F7941E]", text: "Play-Based Learning" },
+                { icon: <FaCheckCircle />, color: "bg-[#39B54A]", text: "Holistic Development" },
+              ].map((h, i) => (
+                <div key={i} className="flex items-center gap-3">
+                  <div className={`${h.color} text-white w-9 h-9 rounded-xl flex items-center justify-center shrink-0 shadow`}>
+                    {h.icon}
+                  </div>
+                  <span className="text-gray-800 font-semibold text-sm">{h.text}</span>
+                </div>
+              ))}
+            </div>
+
+            <div className="flex flex-wrap gap-4">
+              <Link to="/about"
+                className="inline-flex items-center gap-2 bg-[#4A3B8C] hover:bg-purple-900 text-white font-bold px-6 py-3 rounded-full shadow-lg hover:-translate-y-1 transition anim-pulse-glow">
+                Learn More About Us <FaArrowRight />
+              </Link>
+              <a href={`tel:${SOCIAL.phone}`}
+                className="inline-flex items-center gap-2 border-2 border-[#4A3B8C] text-[#4A3B8C] hover:bg-[#4A3B8C] hover:text-white font-bold px-6 py-3 rounded-full transition">
+                <FaPhone /> Call Us
+              </a>
+            </div>
+          </Reveal>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ============================================================
+   👩‍🏫 TEACHERS
    ============================================================ */
 function Teachers() {
   const team = [
@@ -503,7 +578,7 @@ function Teachers() {
             </span>
             <h2 className="text-4xl md:text-5xl font-extrabold text-[#4A3B8C] mb-4">Caring Educators</h2>
             <p className="text-center text-gray-600 max-w-2xl mx-auto">
-              Passionate, qualified and warm — the heart of Pathways. Every teacher is handpicked for their love of little learners.
+              Passionate, qualified and warm — the heart of Pathways.
             </p>
           </div>
         </Reveal>
@@ -512,31 +587,21 @@ function Teachers() {
           {team.map((t, i) => (
             <Reveal key={i} delay={i * 120} direction="zoom">
               <div className={`bg-gradient-to-br ${t.color} text-white rounded-3xl p-6 shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all h-full group relative overflow-hidden`}>
-                {/* Decorative icon background */}
                 <div className="absolute -top-4 -right-4 text-7xl opacity-10 group-hover:opacity-20 transition-opacity">
                   {t.icon}
                 </div>
-
-                {/* Avatar */}
                 <div className="relative mb-5 flex justify-center">
-                  <img
-                    src={t.img}
-                    alt={t.name}
-                    className="w-28 h-28 rounded-full object-cover border-4 border-white/40 shadow-2xl group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300"
-                  />
+                  <img src={t.img} alt={t.name}
+                    className="w-28 h-28 rounded-full object-cover border-4 border-white/40 shadow-2xl group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300" />
                   <span className={`absolute bottom-0 right-1/2 translate-x-12 ${t.badge} text-white text-[10px] font-bold px-2.5 py-1 rounded-full shadow-lg border-2 border-white`}>
                     {t.exp}
                   </span>
                 </div>
-
-                {/* Icon */}
                 <div className="text-3xl mb-3 group-hover:scale-125 group-hover:rotate-6 transition-transform inline-block">
                   {t.icon}
                 </div>
-
                 <h3 className="font-bold text-xl mb-1 relative">{t.name}</h3>
                 <p className="text-sm text-white/90 font-medium mb-4 relative">{t.role}</p>
-
                 <div className="flex items-center gap-2 text-xs bg-white/15 backdrop-blur rounded-full px-3 py-1.5 w-fit">
                   <FaStar className="text-[#FFD93D]" /> Expert Educator
                 </div>
@@ -731,16 +796,10 @@ function VideoSection({ compact = false }) {
                   <div className={`inline-flex items-center gap-2 ${v.color} bg-gradient-to-r text-white text-xs font-bold px-3 py-1.5 rounded-full self-start mb-3`}>
                     <FaPlay size={10} /> Video {i + 1}
                   </div>
-                  <h3 className="font-bold text-xl text-[#4A3B8C] mb-2 leading-snug">
-                    {v.title}
-                  </h3>
+                  <h3 className="font-bold text-xl text-[#4A3B8C] mb-2 leading-snug">{v.title}</h3>
                   <p className="text-gray-600 text-sm flex-1">{v.desc}</p>
-                  <a
-                    href={`https://vimeo.com/${v.id}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 text-[#F7941E] font-semibold hover:gap-3 transition-all self-start mt-4"
-                  >
+                  <a href={`https://vimeo.com/${v.id}`} target="_blank" rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-[#F7941E] font-semibold hover:gap-3 transition-all self-start mt-4">
                     Watch on Vimeo <FaArrowRight />
                   </a>
                 </div>
@@ -752,10 +811,8 @@ function VideoSection({ compact = false }) {
         {compact && (
           <Reveal delay={300}>
             <div className="text-center mt-12">
-              <Link
-                to="/videos"
-                className="inline-flex items-center gap-2 bg-[#4A3B8C] hover:bg-purple-900 text-white font-bold px-8 py-3.5 rounded-full shadow-xl hover:-translate-y-1 transition"
-              >
+              <Link to="/videos"
+                className="inline-flex items-center gap-2 bg-[#4A3B8C] hover:bg-purple-900 text-white font-bold px-8 py-3.5 rounded-full shadow-xl hover:-translate-y-1 transition">
                 View All Videos <FaVideo />
               </Link>
             </div>
@@ -879,7 +936,7 @@ function BlogSection({ limit }) {
 }
 
 /* ============================================================
-   🏠 HOME
+   🏠 HOME  ✅ Hero → About → Counters → Baaki Sab
    ============================================================ */
 function Home() {
   return (
@@ -889,7 +946,6 @@ function Home() {
         <div className="absolute inset-0 opacity-25">
           <div className="absolute top-10 left-10 w-40 h-40 bg-[#FFD93D] rounded-full blur-3xl anim-float"></div>
           <div className="absolute bottom-10 right-10 w-52 h-52 bg-[#F7941E] rounded-full blur-3xl anim-float-slow"></div>
-          <div className="absolute top-1/2 left-1/3 w-32 h-32 bg-[#E63946] rounded-full blur-3xl anim-blob"></div>
         </div>
         <div className="relative max-w-7xl mx-auto px-6 py-16 md:py-24 grid md:grid-cols-2 gap-12 items-center">
           <Reveal direction="left">
@@ -915,6 +971,9 @@ function Home() {
           </Reveal>
         </div>
       </section>
+
+      {/* ✅ ABOUT SECTION — Hero ke turant baad */}
+      <AboutSection />
 
       {/* COUNTERS */}
       <section className="bg-white py-16 shadow-inner">
@@ -1073,13 +1132,13 @@ function Home() {
       {/* VIDEOS */}
       <VideoSection compact />
 
-      {/* GALLERY (first 8) */}
+      {/* GALLERY */}
       <Gallery limit={8} />
 
       {/* TESTIMONIALS */}
       <Testimonials />
 
-      {/* BLOG (3) */}
+      {/* BLOG */}
       <BlogSection limit={3} />
 
       {/* FAQ */}
@@ -1145,13 +1204,12 @@ function Home() {
 }
 
 /* ============================================================
-   ℹ️ ABOUT PAGE — Now with Banner
+   ℹ️ ABOUT PAGE
    ============================================================ */
 function About() {
   return (
     <div>
       <PageHero title="About Us" subtitle="A warm, welcoming space where young minds thrive." color="from-[#4A3B8C] to-[#29ABE2]" />
-
       <section className="max-w-7xl mx-auto px-6 py-20 grid md:grid-cols-2 gap-12 items-center">
         <Reveal direction="left">
           <img src={GALLERY_LOCAL[5]} alt="About Pathways" className="rounded-3xl shadow-2xl w-full h-96 object-cover" />
@@ -1162,10 +1220,7 @@ function About() {
           <p className="text-gray-700 leading-relaxed">With a team of passionate, experienced educators, we strive to create a safe and supportive space that feels like a second home.</p>
         </Reveal>
       </section>
-
-      {/* ✅ BANNER ADDED HERE */}
       <Banner />
-
       <Teachers />
       <Testimonials />
     </div>
