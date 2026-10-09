@@ -600,7 +600,7 @@ function AboutSection() {
                   <FaAward />
                 </div>
                 <div>
-                  <p className="text-2xl font-extrabold text-[#4A3B8C]">12+</p>
+                  <p className="text-2xl font-extrabold text-[#4A3B8C]">2+</p>
                   <p className="text-xs text-gray-600 font-semibold leading-tight">Years of Excellence</p>
                 </div>
               </div>
