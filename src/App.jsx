@@ -605,7 +605,7 @@ function AboutSection() {
                   <FaAward />
                 </div>
                 <div>
-                  <p className="text-2xl font-extrabold text-[#4A3B8C]">12+</p>
+                  <p className="text-2xl font-extrabold text-[#4A3B8C]">2+</p>
                   <p className="text-xs text-gray-600 font-semibold leading-tight">Years of Excellence</p>
                 </div>
               </div>
@@ -1088,7 +1088,7 @@ function Home() {
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8">
           {[
             { icon: <FaSmile />, end: 350, suffix: "+", label: "Happy Kids", color: "text-[#F7941E]" },
-            { icon: <FaCalendarAlt />, end: 12, suffix: "+", label: "Years Experience", color: "text-[#4A3B8C]" },
+            { icon: <FaCalendarAlt />, end: 2, suffix: "+", label: "Years Experience", color: "text-[#4A3B8C]" },
             { icon: <FaUsers />, end: 25, suffix: "+", label: "Expert Teachers", color: "text-[#29ABE2]" },
             { icon: <FaAward />, end: 4, suffix: "", label: "Programs", color: "text-[#39B54A]" },
           ].map((c, i) => (
