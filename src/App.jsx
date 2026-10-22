@@ -305,7 +305,7 @@ function Reveal({ children, delay = 0, className = "", direction = "up" }) {
 /* ============================================================
    🔢 COUNTER
    ============================================================ */
-function Counter({ end, duration = 2000, suffix = "" }) {
+function Counter({ end, duration = 2000, suffix = "", decimals = 0 }) {
   const [count, setCount] = useState(0);
   const [ref, visible] = useReveal();
   useEffect(() => {
@@ -315,11 +315,11 @@ function Counter({ end, duration = 2000, suffix = "" }) {
     const timer = setInterval(() => {
       start += step;
       if (start >= end) { setCount(end); clearInterval(timer); }
-      else setCount(Math.floor(start));
+      else setCount(decimals ? parseFloat(start.toFixed(decimals)) : Math.floor(start));
     }, 16);
     return () => clearInterval(timer);
-  }, [visible, end, duration]);
-  return <span ref={ref}>{count}{suffix}</span>;
+  }, [visible, end, duration, decimals]);
+  return <span ref={ref}>{decimals ? count.toFixed(decimals) : count}{suffix}</span>;
 }
 
 /* ============================================================
@@ -506,7 +506,6 @@ function Footer() {
             <li>Nursery (3 – 4 yrs)</li>
             <li>LKG (4 – 5 yrs)</li>
             <li>UKG (5 – 6 yrs)</li>
-            <li>Grade 1 (6+ yrs)</li>
             <li>Daycare</li>
           </ul>
         </div>
@@ -688,7 +687,7 @@ function ContactForm() {
         <label className="block text-sm font-semibold text-[#4A3B8C] mb-1">Program Interested In</label>
         <select value={form.program} onChange={(e) => setForm({ ...form, program: e.target.value })}
           className="w-full px-4 py-3 rounded-2xl border-2 border-gray-200 focus:border-[#F7941E] outline-none transition cursor-pointer">
-          {["Playgroup (2-3 yrs)", "Nursery (3-4 yrs)", "Junior KG / LKG (4-5 yrs)", "Senior KG / UKG (5-6 yrs)", "Grade 1 (6+ yrs)", "Daycare"].map((p) => <option key={p}>{p}</option>)}
+          {["Playgroup (2-3 yrs)", "Nursery (3-4 yrs)", "Junior KG / LKG (4-5 yrs)", "Senior KG / UKG (5-6 yrs)", "Daycare"].map((p) => <option key={p}>{p}</option>)}
         </select>
       </div>
       <div>
@@ -705,16 +704,15 @@ function ContactForm() {
 }
 
 /* ============================================================
-   ❓ FAQ SECTION — updated with NEP age criteria
+   ❓ FAQ SECTION — updated: meals removed, timings updated
    ============================================================ */
 function FAQSection() {
   const faqs = [
-    { q: "What is the age criteria for admission?", a: "As per NEP 2020 guidelines: Playgroup 2+ years, Nursery 3+ years, Junior KG (LKG) 4+ years, Senior KG (UKG) 5+ years, and Grade 1 requires 6+ years. Daycare is available for working parents." },
+    { q: "What is the age criteria for admission?", a: "As per NEP 2020 guidelines: Playgroup 2+ years, Nursery 3+ years, Junior KG (LKG) 4+ years, and Senior KG (UKG) 5+ years. Daycare is available for working parents." },
     { q: "What is your teaching approach?", a: "We follow an activity-based, play-centered learning philosophy aligned with NEP 2020. Children learn by doing — through hands-on activities, exploration, and guided play." },
-    { q: "What are the school timings?", a: "Preschool: 9:00 AM – 12:30 PM. Daycare: 8:00 AM – 6:00 PM. Flexible options available." },
+    { q: "What are the school timings?", a: "Playgroup & Nursery: 9:15 AM – 12:30 PM. LKG & UKG: 9:15 AM – 1:30 PM. Daycare: 9:15 AM – 4:00 PM." },
     { q: "How do you ensure my child's safety?", a: "CCTV surveillance, secure entry, trained staff, and strict hygiene protocols ensure a completely safe environment for every child." },
     { q: "What documents are required for admission?", a: "Birth certificate, vaccination record, Aadhaar copy, and 4 passport-size photographs of the child." },
-    { q: "Do you provide meals?", a: "Yes! We provide nutritious, freshly prepared snacks and meals in our Daycare program. Special dietary needs can be accommodated." },
   ];
   const [open, setOpen] = useState(0);
   return (
@@ -1083,19 +1081,21 @@ function Home() {
 
       <AboutSection />
 
-      {/* COUNTERS */}
+      {/* COUNTERS — updated to 4.8+ rating and 50+ activities */}
       <section className="bg-white py-16 shadow-inner">
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8">
           {[
-            { icon: <FaSmile />, end: 350, suffix: "+", label: "Happy Kids", color: "text-[#F7941E]" },
+            { icon: <FaSmile />, end: 4.8, suffix: "+", label: "Parent Rating", color: "text-[#F7941E]", decimals: 1 },
             { icon: <FaCalendarAlt />, end: 2, suffix: "+", label: "Years Experience", color: "text-[#4A3B8C]" },
-            { icon: <FaUsers />, end: 25, suffix: "+", label: "Expert Teachers", color: "text-[#29ABE2]" },
+            { icon: <FaStar />, end: 50, suffix: "+", label: "Activities & Events a Year", color: "text-[#29ABE2]" },
             { icon: <FaAward />, end: 4, suffix: "", label: "Programs", color: "text-[#39B54A]" },
           ].map((c, i) => (
             <Reveal key={i} delay={i * 120} direction="zoom">
               <div className="text-center group">
                 <div className={`text-4xl md:text-5xl mb-3 ${c.color} group-hover:scale-110 transition-transform`}>{c.icon}</div>
-                <div className="text-4xl md:text-5xl font-extrabold text-[#4A3B8C] mb-1"><Counter end={c.end} suffix={c.suffix} /></div>
+                <div className="text-4xl md:text-5xl font-extrabold text-[#4A3B8C] mb-1">
+                  <Counter end={c.end} suffix={c.suffix} decimals={c.decimals || 0} />
+                </div>
                 <p className="text-gray-600 font-semibold text-sm md:text-base">{c.label}</p>
               </div>
             </Reveal>
@@ -1174,7 +1174,7 @@ function Home() {
             <div className="text-center mb-14">
               <span className="inline-block bg-[#4A3B8C] text-white font-bold px-4 py-1.5 rounded-full text-sm mb-4 shadow-lg anim-pulse-glow">🎓 Admissions Open 2026–27</span>
               <h2 className="text-4xl md:text-5xl font-extrabold text-[#4A3B8C] mb-4">Enroll Your Child Today!</h2>
-              <p className="text-[#4A3B8C]/90 text-lg max-w-3xl mx-auto">Admissions open for 2026-27 across Playgroup, Nursery, LKG, UKG and Grade 1. Limited seats per class — reserve yours now.</p>
+              <p className="text-[#4A3B8C]/90 text-lg max-w-3xl mx-auto">Admissions open for 2026-27 across Playgroup, Nursery, LKG, and UKG. Limited seats per class — reserve yours now.</p>
             </div>
           </Reveal>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
@@ -1375,7 +1375,7 @@ function Admissions() {
           </div>
         </Reveal>
 
-        {/* Age Criteria Table (NEP 2020) */}
+        {/* Age Criteria Table (NEP 2020) — Grade 1 removed */}
         <Reveal>
           <h3 className="text-3xl md:text-4xl font-extrabold text-[#4A3B8C] text-center mb-6">Age Criteria (NEP 2020)</h3>
           <div className="bg-white rounded-3xl shadow-lg overflow-hidden mb-12">
@@ -1388,7 +1388,6 @@ function Admissions() {
               { c: "Nursery", a: "3+ years" },
               { c: "Junior KG (LKG)", a: "4+ years" },
               { c: "Senior KG (UKG)", a: "5+ years" },
-              { c: "Grade 1", a: "6+ years" },
             ].map((row, i) => (
               <div key={i} className={`grid grid-cols-2 text-sm md:text-base ${i % 2 === 0 ? "bg-[#FFF8F0]" : "bg-white"}`}>
                 <div className="px-5 py-3 font-semibold text-[#4A3B8C]">{row.c}</div>
