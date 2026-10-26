@@ -64,9 +64,6 @@ const IMG = {
   blog1: "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=800&q=80",
   blog2: "https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=800&q=80",
   blog3: "https://images.unsplash.com/photo-1607453998774-d533f65dac99?w=800&q=80",
-  teacher1: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&q=80",
-  teacher2: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&q=80",
-  teacher3: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&q=80",
 };
 
 /* ============================================================
@@ -80,10 +77,6 @@ const VIDEOS = [
 
 /* ============================================================
    📚 PROGRAMS DATA — NEP Age Criteria + New Images
-   Playgroup = 7.jpeg (index 6)
-   Nursery   = 20.jpeg (index 19)
-   Junior KG = 24.jpeg (index 23)
-   Senior KG = 26.jpeg (index 25)
    ============================================================ */
 const PROGRAMS_DATA = [
   {
@@ -332,7 +325,7 @@ function ScrollToTop() {
 }
 
 /* ============================================================
-   🟠 MARQUEE — updated with 2026-27
+   🟠 MARQUEE
    ============================================================ */
 function WelcomeMarquee() {
   const items = [
@@ -704,7 +697,7 @@ function ContactForm() {
 }
 
 /* ============================================================
-   ❓ FAQ SECTION — updated: meals removed, timings updated
+   ❓ FAQ SECTION
    ============================================================ */
 function FAQSection() {
   const faqs = [
@@ -748,14 +741,57 @@ function FAQSection() {
 }
 
 /* ============================================================
-   💬 TESTIMONIALS
+   💬 TESTIMONIALS — REAL PARENT REVIEWS
    ============================================================ */
 function Testimonials() {
   const reviews = [
-    { name: "Priya Sharma", role: "Mother of Aarav (Nursery)", text: "Pathways has been a blessing! Aarav used to be shy, but now he's confident, social and always excited to go to school. The teachers genuinely care.", img: IMG.teacher2, color: "bg-[#4A3B8C]" },
-    { name: "Rahul Verma", role: "Father of Anaya (Junior KG)", text: "The play-based approach is fantastic. My daughter learns math and reading without even realizing it — she thinks it's all play! Truly amazing.", img: IMG.teacher1, color: "bg-[#F7941E]" },
-    { name: "Sneha Patel", role: "Mother of Vivaan (Playgroup)", text: "Safe, warm and nurturing. The staff treats every child like family. As a working mom, the daycare facility has been a lifesaver.", img: IMG.teacher3, color: "bg-[#39B54A]" },
+    {
+      name: "Jaya Tiwari",
+      role: "Mother of Kashvi",
+      text: "Pathways Preschool and Daycare provides a safe, caring, and nurturing environment for children. The teachers are patient, friendly and genuinely dedicated to every child's learning and overall development. The classrooms are clean, well maintained, and filled with engaging activities that help children learn through play. The staff is approachable. I highly recommend Pathways Preschool and Daycare to parents looking for a place where their child can learn, grow, and feel happy every day.",
+      color: "bg-[#4A3B8C]",
+      rating: 5,
+    },
+    {
+      name: "Sneha Dande",
+      role: "Mother of Varsha",
+      text: "We are extremely happy with Pathways Daycare and Preschool. The play materials and educational resources are excellent, which helps my child engage easily within the school environment. Initially, my child used to cry when we left her at school, which is very common as children step out of their comfort zone for the first time. However, the teachers are very friendly, caring, and comforting. They make every effort to ensure my child feels safe and at home. A special thanks to Khushboo ma'am — because of her, my child now looks forward to going to school, even on holidays 😄",
+      color: "bg-[#F7941E]",
+      rating: 5,
+    },
+    {
+      name: "Niveditha P",
+      role: "Mother of Prashvi",
+      text: "I have enrolled my kid here and I am glad I did. Seen a lot of improvement in her in these past few days. The environment and facilities are good. They have unique teaching methods through activity club and their teacher is amazing. My kid's happy going to school. I would highly recommend you guys to enroll your child here.",
+      color: "bg-[#39B54A]",
+      rating: 5,
+    },
+    {
+      name: "Madhukesh BT",
+      role: "Father of Poshini",
+      text: "We are very happy with our daughter's experience at the preschool. The teachers and staff are caring, supportive, and attentive to every child's individual needs. We have noticed a positive improvement in her communication, confidence, social skills, and overall development. The school provides a safe, friendly, and engaging environment where children can learn while having fun. We truly appreciate the teachers' patience, dedication, and regular communication with parents. Overall, we are very satisfied with the preschool and would happily recommend it to other parents. Thank you to the entire team for creating such a wonderful learning environment for our daughter.",
+      color: "bg-[#29ABE2]",
+      rating: 5,
+    },
+    {
+      name: "Kaviyarasu Kavi",
+      role: "Father of Adhithya",
+      text: "It's a good place for child's learning. Overall I'm very satisfied.",
+      color: "bg-[#E63946]",
+      rating: 5,
+    },
+    {
+      name: "Shikha Agarwal",
+      role: "Mother of Mannat",
+      text: "I have a very good experience with them! Faculty is very kind and helpful. They treat children very nicely. My daughter took tuition with them and she was happy & scored well. Thank you ma'am for guiding her so well. And also they have very nice equipments for playschool. I recommend parents to once must visit and check the method of teaching.",
+      color: "bg-[#7C3AED]",
+      rating: 5,
+    },
   ];
+
+  const getInitials = (name) =>
+    name.split(" ").map((n) => n[0]).join("").slice(0, 2).toUpperCase();
+
   return (
     <section className="py-20 bg-[#FFF8F0] relative overflow-hidden">
       <div className="absolute -top-10 -right-10 w-72 h-72 bg-[#F7941E]/10 anim-blob"></div>
@@ -768,18 +804,26 @@ function Testimonials() {
             <p className="text-gray-600 max-w-2xl mx-auto">Real stories from real families who trust Pathways.</p>
           </div>
         </Reveal>
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {reviews.map((r, i) => (
-            <Reveal key={i} delay={i * 150} direction={i % 2 === 0 ? "left" : "right"}>
+            <Reveal key={i} delay={i * 120} direction={i % 2 === 0 ? "left" : "right"}>
               <div className="bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all p-7 h-full flex flex-col hover:-translate-y-2 relative">
                 <FaQuoteLeft className={`text-4xl ${r.color} opacity-20 mb-4`} />
                 <p className="text-gray-700 italic leading-relaxed mb-6 flex-1">"{r.text}"</p>
                 <div className="flex items-center gap-4 border-t pt-5">
-                  <img src={r.img} alt={r.name} className="w-14 h-14 rounded-full object-cover border-4 border-[#FFD93D]" />
+                  <div
+                    className={`${r.color} text-white w-14 h-14 rounded-full flex items-center justify-center font-bold text-lg border-4 border-[#FFD93D] shrink-0`}
+                  >
+                    {getInitials(r.name)}
+                  </div>
                   <div>
                     <p className="font-bold text-[#4A3B8C]">{r.name}</p>
                     <p className="text-xs text-gray-500">{r.role}</p>
-                    <div className="flex gap-1 text-[#FFD93D] text-xs mt-1">{[...Array(5)].map((_, j) => <FaStar key={j} />)}</div>
+                    <div className="flex gap-1 text-[#FFD93D] text-xs mt-1">
+                      {[...Array(r.rating)].map((_, j) => (
+                        <FaStar key={j} />
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1081,7 +1125,7 @@ function Home() {
 
       <AboutSection />
 
-      {/* COUNTERS — updated to 4.8+ rating and 50+ activities */}
+      {/* COUNTERS */}
       <section className="bg-white py-16 shadow-inner">
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8">
           {[
@@ -1357,7 +1401,7 @@ function Programs() {
 }
 
 /* ============================================================
-   🎓 ADMISSIONS — updated with NEP age criteria
+   🎓 ADMISSIONS PAGE
    ============================================================ */
 function Admissions() {
   return (
@@ -1375,7 +1419,6 @@ function Admissions() {
           </div>
         </Reveal>
 
-        {/* Age Criteria Table (NEP 2020) — Grade 1 removed */}
         <Reveal>
           <h3 className="text-3xl md:text-4xl font-extrabold text-[#4A3B8C] text-center mb-6">Age Criteria (NEP 2020)</h3>
           <div className="bg-white rounded-3xl shadow-lg overflow-hidden mb-12">
